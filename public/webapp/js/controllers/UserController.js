@@ -2,15 +2,15 @@
 
 	var app = angular.module("employeesMngApp");
 
-	var UserController = function($scope, $getUsersServ) {
+	var UserController = function($scope, $getUsersServ, PageDataService) {
 
 	    var onUserComplete = function(data) {
 	        $scope.users = data;
 	    };
 	
 		var onError = function(response) {
-		    $scope.error = "Could not get the user list"; 
-		};      
+		    $scope.error = "Could not get the user list";
+		};
 		  
 		
 		$scope.getKeysOfCollection = function(obj) {
@@ -32,6 +32,9 @@
 	    
 		$scope.sortOrder = "-name";
 	    $getUsersServ.getUsers().then(onUserComplete, onError);
+	    
+	    PageDataService.setPageDescription("Manage Users");
+	    PageDataService.setPage("users");
 
 	};
 

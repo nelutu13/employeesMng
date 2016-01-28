@@ -1,12 +1,43 @@
 body
 {
     margin: 0;
+    margin-bottom: 50px;
     padding: 0;
+    background-color: #cceeff;
+}
+
+.container { 
+	margin-top: 10px;
+	width: 100%; 
+}
+
+.content { 
+	margin: 0; 
+    padding: 0;
+    background-color: #fff;
+}
+
+.right-to-left { 
+	margin-top: 30px; 
+}
+
+.right-to-left li { 
+	float: right; 
 }
 
 .search
 {
     bottom: 0;
     position: fixed;
-    width: 100%;
+    width: 90%;
+}
+
+.myGrey 
+{
+	color: #666;
+}
+
+.navbar 
+{
+	color: #f00;
 }

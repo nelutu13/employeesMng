@@ -2,6 +2,13 @@
 
 var employeesMngApp = angular.module('employeesMngApp', ['ui.router']);
 
+employeesMngApp.constant("appConfig", {
+    "home": "Home page",
+    "about": "About",
+    "users": "Manage users"
+    
+})
+
 employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     
     $urlRouterProvider.otherwise('/home');
@@ -10,7 +17,8 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
         
 	    .state('home', {
 	        url: '/home',
-	        templateUrl: 'pages/home.html'
+	        templateUrl: 'pages/home.html',
+            controller: 'HomeController'
 	    })
     
         .state('users', {
@@ -40,7 +48,11 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        views: {
 
 	            // the main template will be placed here (relatively named)
-	            '': { templateUrl: 'pages/partial-about.html' },
+	            '': { 
+	            	templateUrl: 'pages/partial-about.html',
+                    controller: 'AboutController',
+	            		
+	            	},
 
 	            // the child views will be defined here (absolutely named)
 	            'columnOne@about': { template: 'Look I am a column!' },
