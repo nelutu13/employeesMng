@@ -1,0 +1,12 @@
+body
+{
+    margin: 0;
+    padding: 0;
+}
+
+.search
+{
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
