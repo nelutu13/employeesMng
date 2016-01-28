@@ -15,7 +15,7 @@
     
   };
   
-  var module = angular.module("bspApp");
+  var module = angular.module("employeesMngApp");
   module.factory("$getUsersServ", getUsersServ);
   
 }());

@@ -1,4 +1,4 @@
-package eu.isdc.bsp.model;
+package eu.isdc.employeesMng.model;
 
 public class Account {
 

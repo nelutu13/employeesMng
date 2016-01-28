@@ -1,6 +1,6 @@
 (function() {
 
-	var app = angular.module("bspApp");
+	var app = angular.module("employeesMngApp");
 
 	var UserController = function($scope, $getUsersServ) {
 

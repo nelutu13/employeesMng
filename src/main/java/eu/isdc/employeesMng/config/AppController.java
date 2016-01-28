@@ -1,6 +1,6 @@
-package eu.isdc.bsp.config;
+package eu.isdc.employeesMng.config;
 
-import eu.isdc.bsp.model.User;
+import eu.isdc.employeesMng.model.User;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

@@ -1,8 +1,8 @@
 (function(){
 
-var bspApp = angular.module('bspApp', ['ui.router']);
+var employeesMngApp = angular.module('employeesMngApp', ['ui.router']);
 
-bspApp.config(function($stateProvider, $urlRouterProvider) {
+employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     
     $urlRouterProvider.otherwise('/home');
     
@@ -62,7 +62,7 @@ bspApp.config(function($stateProvider, $urlRouterProvider) {
 
 
 //let's define the scotch controller that we call up in the about state
-bspApp.controller('zzz', function($scope) {
+employeesMngApp.controller('zzz', function($scope) {
     
     $scope.message = 'test';
    
