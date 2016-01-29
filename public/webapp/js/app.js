@@ -7,17 +7,28 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/home');
     
     $stateProvider
-        
-	    .state('home', {
+
+    	.state('home', {
 	        url: '/home',
 	        templateUrl: 'pages/home.html',
             controller: 'HomeController'
 	    })
     
-        .state('users', {
-            url: '/users',
-            templateUrl: 'pages/users.html',
+	    .state('users', {
+	        abstract: true,
+	        url: '/users',
+	        template: '<ui-view/>'
+	    })
+        .state('users.list', {
+            url: '/list',
+            templateUrl: 'pages/users.list.html',
             controller: 'UserController'
+        })
+    
+        .state('users.detail', {
+            url: '/detail/:number',
+            templateUrl: 'pages/users.detail.html',
+            controller: 'UsersDetailController'
         })
         
         // nested list with custom controller

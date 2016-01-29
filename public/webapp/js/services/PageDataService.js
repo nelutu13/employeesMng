@@ -1,5 +1,3 @@
-(function() {
-
 	var PageDataService = function($http) {
 
 		var pageDescription = 'Not planed';
@@ -32,5 +30,3 @@
 
 	var module = angular.module("employeesMngApp");
 	module.factory("PageDataService", PageDataService);
-
-}());
