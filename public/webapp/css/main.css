@@ -1,7 +1,6 @@
 body
 {
     margin: 0;
-    margin-bottom: 50px;
     padding: 0;
     background-color: #cceeff;
 }
@@ -13,8 +12,11 @@ body
 
 .content { 
 	margin: 0; 
+	margin-top: -10; 
     padding: 0;
     background-color: #fff;
+    border-radius: 20px 0 30px 0
+    
 }
 
 .right-to-left { 
@@ -22,14 +24,13 @@ body
 }
 
 .right-to-left li { 
-	float: right; 
+	float: right;
 }
 
 .search
 {
-    bottom: 0;
-    position: fixed;
-    width: 90%;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .myGrey 
@@ -39,5 +40,33 @@ body
 
 .navbar 
 {
+    margin-bottom: 0;
+    padding-bottom: 0;
 	color: #f00;
+}
+
+.navbar-brand {
+	margin-top: 20px;
+}
+
+.right-to-left {
+    padding-top: 0;
+	margin-top: 30px;
+}
+
+.nav-tabs {
+    border-bottom: 0
+}
+
+.nav-tabs>li>a {
+    border-radius: 20px 8px 0 0
+}
+
+.nav {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.nav-tabs>li>a {
+    margin-right: -2px;
 }

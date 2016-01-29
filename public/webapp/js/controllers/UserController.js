@@ -1,4 +1,3 @@
-(function() {
 
 	var app = angular.module("employeesMngApp");
 
@@ -40,4 +39,3 @@
 
 	app.controller("UserController", UserController);
 
-}());

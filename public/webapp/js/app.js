@@ -1,13 +1,6 @@
-(function(){
+'use strict'
 
 var employeesMngApp = angular.module('employeesMngApp', ['ui.router']);
-
-employeesMngApp.constant("appConfig", {
-    "home": "Home page",
-    "about": "About",
-    "users": "Manage users"
-    
-})
 
 employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -95,4 +88,3 @@ employeesMngApp.controller('zzz', function($scope) {
     
 });
 
-}());
