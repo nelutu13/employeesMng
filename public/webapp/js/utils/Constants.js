@@ -1,4 +1,4 @@
-angular.module("employeesMngApp").constant("appConfig", {
+angular.module("employeesMngApp").constant("PAGE_DESC", {
     "home": "Home page",
     "about": "About",
     "users.list": "Manage users",

@@ -1,32 +1,18 @@
-	var PageDataService = function($http) {
+var module = angular.module("employeesMngApp");
 
-		var pageDescription = 'Not planed';
-		var page = 'home';
-
-		var getPageDescription = function() {
-			return pageDescription;
-		};
-
-		var getPage = function() {
-			return page;
-		};
-
-		var setPageDescription = function(newPageDescription) {
-			pageDescription = newPageDescription;
-		};
-
-		var setPage = function(newPage) {
-			page = newPage;
-		};
-
-		return {
-			getPageDescription : getPageDescription,
-			setPageDescription : setPageDescription,
-			getPage : getPage,
-			setPage : setPage
-		};
-
-	};
-
-	var module = angular.module("employeesMngApp");
-	module.factory("PageDataService", PageDataService);
+module.factory("PageDataService", function($state, PAGE_DESC) {
+	
+	var service = this;
+	
+	service.getPageDesc = function() {
+		if (PAGE_DESC[$state.current.name] != undefined)
+		{
+			return PAGE_DESC[$state.current.name];
+		} else {
+			return 'The state "' + $state.current.name + '" is not defined.';
+		}
+	}
+	
+	return service;
+	
+});

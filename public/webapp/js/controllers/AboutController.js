@@ -1,7 +1,7 @@
 
 	var app = angular.module("employeesMngApp");
 
-	var AboutController = function($scope, PageDataService) {
+	var AboutController = function($scope) {
 
 	};
 

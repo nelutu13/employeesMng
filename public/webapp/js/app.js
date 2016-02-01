@@ -22,7 +22,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
         .state('users.list', {
             url: '/list',
             templateUrl: 'pages/users.list.html',
-            controller: 'UserController'
+            controller: 'UsersController'
         })
     
         .state('users.detail', {
