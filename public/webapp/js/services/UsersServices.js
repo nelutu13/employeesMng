@@ -1,18 +1,18 @@
 var module = angular.module("employeesMngApp");
 
-module.factory("UsersService", function($http) {
+module.factory("UsersService", function($http, $state) {
 
 	var service = this, _users = [], _error = false;
 	
 	service.initUsers = function() {
-		return $http.get("http://localhost:8080/users").then(
+		$http.get("http://localhost:8080/users").then(
 			function(response) {
 				_users = response.data;
 			}, function(error) {
 				_error = 'Could not get the users list from server.';
 			});
 	};
-
+	
 	service.getUsers = function() {
 		return _users;
 	}
@@ -27,23 +27,34 @@ module.factory("UsersService", function($http) {
 	    }
 	    return Object.keys(obj);
 	}
-	
+
+	service.goToUsersDetail = function(userNumber) {
+		$state.go('users.detail', {'userNumber':userNumber});
+	};
+
 	return service;
 
 });
 
 
 
-module.factory("UsersDetailService", function($http) {
+module.factory("UsersDetailService", function($http, $state) {
 
 	var service = this, _user = {}, _error = false;
 
-	service.initUsersDetail = function(number) {
-		return $http.get("http://localhost:8080/usersDetail?number=" + number).then(
+	service.initUsersDetail = function(userNumber) {
+		
+		_user = {};
+		_error = false;
+		
+		return $http.get("http://localhost:8080/usersDetail?userNumber=" + userNumber).then(
 			function(response) {
 				_user = response.data;
+				_user['confirmPassword'] = _user['password'];
+			
 			}, function(error) {
 				_error = 'Could not get the user details data from server.';
+				$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
 			});
 	};
 
@@ -55,6 +66,12 @@ module.factory("UsersDetailService", function($http) {
 		return _error;
 	}
 
+	service.goToUsersListPage = function() {
+		$state.go('users.list');
+	}
+
+	
+	
 	return service;
 
 });

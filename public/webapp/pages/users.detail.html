@@ -4,38 +4,89 @@
 		<strong>Error!</strong> <span ng-bind="getError()"></span>
 	</div>
 
-	<form>
+	<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
 		<div class="form-group">
-			<label for="inputName">Name</label> <input type="text"
-				class="form-control" id="inputName" placeholder="Enter name"
-				ng-model="getUser().name">
+			<label for="inputUserId">User id(secret)</label> 
+			<input type="text" class="form-control" name="inputUserId" id="inputUserId" 
+			placeholder="You should not see this" ng-model="getUser().id">
 		</div>
 		<div class="form-group">
-			<label for="inputName">Age</label> <input type="text"
-				class="form-control" id="inputAge" placeholder="Enter age"
-				ng-model="getUser().age">
+			<label for="userNumber">User number(secret)</label>
+			<input type="text" class="form-control" name="userNumber" id="userNumber"
+			placeholder="You should not see this" ng-model="getUser().userNumber">
+		</div>
+		
+		<div class="form-group" ng-class="{ 'has-error' : userForm.userFullName.$invalid && !userForm.userFullName.$pristine }">
+			<label for="userFullName">Name</label>
+			<input type="text" class="form-control" name="userFullName" id="userFullName"
+			placeholder="Enter name" ng-model="getUser().userFullName"
+			required ng-minlength="3" ng-maxlength="50">
+            <p ng-show="userForm.userFullName.$error.required && !userForm.userFullName.$pristine" class="help-block">You name is required.</p>
+            <p ng-show="userForm.userFullName.$error.minlength && !userForm.userFullName.$pristine" class="help-block">Name is too short.</p>
+            <p ng-show="userForm.userFullName.$error.maxlength && !userForm.userFullName.$pristine" class="help-block">Name is too long.</p>
+		</div>
+		
+		<div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+			<label for="email">Email</label>
+			<input type="email" class="form-control" name="email" id="email"
+					placeholder="Enter email" ng-model="getUser().email"
+					check-email-already-taken>
+		    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+		    <p ng-show="userForm.email.$pending.checkEmailAlreadyTaken">Checking if this email is available...</p>
+		    <p ng-show="userForm.email.$error.checkEmailAlreadyTaken">This email is already taken!</p>
+		    
 		</div>
 		<div class="form-group">
-			<label for="inputName">language</label> <input type="text"
-				class="form-control" id="inputLanguage" placeholder="Enter language"
-				ng-model="getUser().language">
+			<label for="city">City</label> 
+			<input type="text" class="form-control" name="city" id="city" 
+					placeholder="Enter city" ng-model="getUser().city">
+		</div>
+
+		<div class="form-group">
+			<label for="password">Password</label> 
+			<input type="password" class="form-control" name="password" id="password"
+					placeholder="Enter password" ng-model="getUser().password"
+					required >
+            <p ng-show="userForm.password.$error.required" && !userForm.confirmPassword.$pristine>required</p>
+		</div>
+
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" 
+            		placeholder="Confirm password" ng-model="getUser().confirmPassword"
+                	required compare-to="getUser().password" />
+            <div ng-show="userForm.confirmPassword.$error.compareTo && !userForm.confirmPassword.$pristine" >Password must match the previous entry</div>
+        </div>
+
+		<div class="form-group">
+			<label for="notes">Notes</label> 
+			<input type="text" class="form-control" name="notes" id="notes" 
+			placeholder="Enter notes" ng-model="getUser().notes">
+		</div>
+		<div class="form-group" ng-class="{ 'has-error' : userForm.inputAge.$invalid && !userForm.inputAge.$pristine }">
+			<label for="inputAge">Age</label> 
+			<input type="number" class="form-control" name="inputAge" id="inputAge"
+			placeholder="Enter age" ng-model="getUser().age"
+			min="0" max="199" integer>
+			<p ng-show="userForm.inputAge.$error.integer">The value is not a valid number!</p>
+    		<p ng-show="userForm.inputAge.$error.min || userForm.inputAge.$error.max">The value is not a valid age!</p>
 		</div>
 		<div class="form-group">
-			<label for="inputName">Credit Card</label> <input type="text"
-				class="form-control" id="inputCreditCard"
-				placeholder="Enter Credit Card" ng-model="getUser().creditCard">
+			<label for="address">Address</label>
+			<input type="text" class="form-control" name="address" id="address" 
+			placeholder="Enter address" ng-model="getUser().address">
 		</div>
+		
 		<div class="form-group">
-			<label for="inputUserId">User id(secret)</label> <input type="text"
-				class="form-control" id="inputUserId" placeholder="Enter user id"
-				ng-model="getUser().id">
+			<label for="creditCardNumber">Credit Card</label>
+			<input type="text" class="form-control" name="inputCreditCard" id="inputCreditCard" 
+			placeholder="Enter credit card number" ng-model="getUser().creditCardNumber"
+			payments-validate="VALIDATION_TYPE">
 		</div>
-		<div class="form-group">
-			<label for="inputNumber">User number(secret)</label> <input
-				type="text" class="form-control" id="inputNumber"
-				placeholder="Enter user number" ng-model="getUser().number">
-		</div>
-		<button type="submit" class="btn btn-default" ng-click="">Edit user</button>
+		
+		<button class="btn btn-default" ng-click="goToUsersListPage()">Back to users list</button>
+		<button type="submit" class="btn btn-success button-at-right" ng-disabled="userForm.$invalid">Save user</button>
+
 	</form>
 
 </div>

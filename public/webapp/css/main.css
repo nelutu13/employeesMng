@@ -75,3 +75,7 @@ body
 	padding: 15px;
 	padding-top: 84px;
 }
+
+.button-at-right { 
+	float: right;
+}

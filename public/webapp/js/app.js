@@ -19,14 +19,15 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        url: '/users',
 	        template: '<ui-view/>'
 	    })
-        .state('users.list', {
+
+	    .state('users.list', {
             url: '/list',
             templateUrl: 'pages/users.list.html',
             controller: 'UsersController'
         })
     
         .state('users.detail', {
-            url: '/detail/:number',
+            url: '/detail/:userNumber',
             templateUrl: 'pages/users.detail.html',
             controller: 'UsersDetailController'
         })
@@ -67,12 +68,19 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	                controller: 'zzz'
 	            }
 	        }
-	        
+	    })
+	    
+	    .state('error_page', {
+	        url: '/error_page',
+	        params: {
+	        	errorDesc: '',
+	        	escapePageState: '',
+	        	buttonText: ''
+	        },
+	        templateUrl: 'pages/error_page.html',
+	        controller: 'ErrorPageController'
 	    });
-    
-    
-    
-        
+
 });
 
 

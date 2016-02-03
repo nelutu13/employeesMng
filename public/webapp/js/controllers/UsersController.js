@@ -1,11 +1,12 @@
 var module = angular.module("employeesMngApp");
 
-module.controller("UsersController", function($scope, UsersService) {
+module.controller("UsersController", function($scope, $state, UsersService) {
 
 	UsersService.initUsers();
 
 	$scope.getUsers = UsersService.getUsers;
 	$scope.getError = UsersService.getError;
+	$scope.goToUsersDetail = UsersService.goToUsersDetail;
 	
 	$scope.getKeysOfCollection = UsersService.getKeysOfCollection;
 	
@@ -17,5 +18,5 @@ module.controller("UsersController", function($scope, UsersService) {
 		$scope.reverse = !$scope.reverse;
 	}
 	$scope.sortOrder = "-name";
-    
+
 });

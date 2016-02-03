@@ -4,9 +4,13 @@ import eu.isdc.employeesMng.service.UsersService;
 import eu.isdc.employeesMng.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class AppController {
@@ -15,14 +19,36 @@ public class AppController {
     private UsersService userService;
     
     @RequestMapping("/users")
-    public String getUsers() {
+    public List<User> getUsers() {
+
     	return userService.getUsers();
         
     }
 
     @RequestMapping("/usersDetail")
-    public User getUser(@RequestParam(value="number", defaultValue="0") String number) {
-        return new User(number, "Ion Baciu");
+    public ResponseEntity<User> getUser(@RequestParam(value="userNumber", defaultValue="0") String userNumber) {
+
+    	User user = userService.getUser(Integer.parseInt(userNumber));
+    	
+    	if(user == null) {
+    		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+    	}
+
+		return new ResponseEntity<User>(user,HttpStatus.OK);
+
+    }
+
+    @RequestMapping("/users")
+    public ResponseEntity<User> createUser(@RequestParam(value="user", defaultValue="{}") User newUser) {
+
+    	User user = userService.createUser(newUser);
+
+    	if(user == null) {
+    		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
+    	}
+
+		return new ResponseEntity<User>(user,HttpStatus.OK);
+
     }
 
 }
