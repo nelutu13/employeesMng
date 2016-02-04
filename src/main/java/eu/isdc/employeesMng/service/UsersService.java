@@ -2,8 +2,6 @@ package eu.isdc.employeesMng.service;
 
 import java.sql.*;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,12 +28,12 @@ public class UsersService {
 			String query = "SELECT * FROM users";
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				usersList.add(new User(rs.getInt("id"), rs
-						.getString("user_number"), rs.getString("user_full_name"),
-						rs.getString("email"), rs.getString("city"), rs
-								.getString("password"), rs.getString("notes"),
-						rs.getInt("age"), rs.getString("address"), rs
-								.getString("credit_card_number")));
+				usersList.add(new User(rs.getInt("id"), 
+						rs.getString("user_number"), rs.getString("user_full_name"),
+						rs.getString("email"), rs.getString("city"), 
+						rs.getString("password"), rs.getString("notes"),
+						rs.getInt("age"), rs.getString("address"), 
+						rs.getString("credit_card_number")));
 			}
 
 			rs.close();
@@ -45,10 +43,8 @@ public class UsersService {
 			return usersList;
 
 		} catch (SQLException se) {
-			// Handle errors for JDBC
 			se.printStackTrace();
 		} catch (Exception e) {
-			// Handle errors for Class.forName
 			e.printStackTrace();
 		} finally {
 			try {
@@ -57,7 +53,7 @@ public class UsersService {
 				}
 			} catch (SQLException se2) {
 				;
-			}// nothing we can do
+			}
 
 			try {
 				if (conn != null) {
@@ -65,16 +61,11 @@ public class UsersService {
 				}
 			} catch (SQLException se) {
 				se.printStackTrace();
-			}// end finally try
-		}// end try
+			}
+		}
 
 		return null;
 	}
-
-	
-	
-	
-	
 	
 	
 
@@ -88,6 +79,7 @@ public class UsersService {
 		
 		Connection conn = null;
 		PreparedStatement ps = null;
+
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			String query = "SELECT * FROM users WHERE user_number=?";
@@ -112,10 +104,10 @@ public class UsersService {
 			return user;
 			
 		} catch (SQLException se) {
-			//se.printStackTrace();
+			se.printStackTrace();
 			return null;
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			return null;
 		} finally {
 			try {
@@ -124,7 +116,7 @@ public class UsersService {
 				}
 			} catch (SQLException se2) {
 				;
-			}// nothing we can do
+			}
 
 			try {
 				if (conn != null) {
@@ -132,26 +124,103 @@ public class UsersService {
 				}
 			} catch (SQLException se) {
 				se.printStackTrace();
-			}// end finally try
-		}// end try
+			}
+		}
 
 	}
 
 
 	
-	
-	public User createUser(User newUser) {
-		return null;
+	public User updateUser(User modifiedUser) {
+		
+		//check user fields
+		
+		//update user in database
+		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
+		final String USER = "root";
+		final String PASS = "root";
 
+		User updatedUser = null;
+		
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String query = "UPDATE users SET"
+					+ " user_full_name = ?,"
+					+ " email = ?,"
+					+ " city = ?,"
+					+ " password = ?,"
+					+ " notes = ?,"
+					+ " age = ?,"
+					+ " address = ?,"
+					+ " credit_card_number = ?"
+					+ " WHERE id = ?";
+
+			ps = conn.prepareStatement(query);
+			ps.setString(1, modifiedUser.getUserFullName());
+			ps.setString(2, modifiedUser.getEmail());
+			ps.setString(3, modifiedUser.getCity());
+			ps.setString(4, modifiedUser.getPassword());
+			ps.setString(5, modifiedUser.getNotes());
+			ps.setInt(6, modifiedUser.getAge());
+			ps.setString(7, modifiedUser.getAddress());
+			ps.setString(8, modifiedUser.getCreditCardNumber());
+			ps.setInt(9, modifiedUser.getId());
+
+			int rsCount = ps.executeUpdate();
+
+			if (rsCount != 0) {
+				
+				query = "SELECT * FROM users WHERE id=?";
+
+				ps.close();
+				ps = conn.prepareStatement(query);
+				ps.setInt(1, modifiedUser.getId());
+				ResultSet rs = ps.executeQuery();
+
+				if (rs.next()) {
+					updatedUser = new User(
+							rs.getInt("id"), rs.getString("user_number"),
+							rs.getString("user_full_name"), rs.getString("email"),
+							rs.getString("city"), rs.getString("password"),
+							rs.getString("notes"), rs.getInt("age"),
+							rs.getString("address"), rs.getString("credit_card_number"));
+				}
+
+				rs.close();
+				
+			} 
+
+			ps.close();
+			conn.close();
+			
+			return updatedUser;
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (SQLException se2) {
+				;
+			}
+
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
 	}
 
 }
-
-
-
-
-
-// stmt = conn.createStatement();
-// Statement stmt = null;
-// ResultSet rs = stmt.executeQuery(query);
-// stmt.close();

@@ -6,7 +6,9 @@ import eu.isdc.employeesMng.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,16 +40,19 @@ public class AppController {
 
     }
 
-    @RequestMapping("/users")
-    public ResponseEntity<User> createUser(@RequestParam(value="user", defaultValue="{}") User newUser) {
+    
+    
+    @RequestMapping(value="/users", method = RequestMethod.POST)
+    public ResponseEntity<User> updateUser(@RequestBody User modifiedUser) {
+    //public ResponseEntity<User> update(@RequestParam(value="userId", defaultValue="0") String userNumber, @RequestBody User modifiedUser) {
 
-    	User user = userService.createUser(newUser);
+    	User updatedUser = userService.updateUser(modifiedUser);
 
-    	if(user == null) {
+    	if(updatedUser == null) {
     		return new ResponseEntity<User>(HttpStatus.BAD_REQUEST);
     	}
 
-		return new ResponseEntity<User>(user,HttpStatus.OK);
+		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 
     }
 

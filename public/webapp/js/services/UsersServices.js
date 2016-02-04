@@ -58,6 +58,17 @@ module.factory("UsersDetailService", function($http, $state) {
 			});
 	};
 
+	service.updateUsersDetail = function() {	
+		return $http.post("http://localhost:8080/users", _user).then(
+		//return $http.post("http://localhost:8080/users", {"id":2,"userNumber":"474646593","userFullName":"Marius Marcu","email":"marius.marcu@email.com","city":"Mures","password":"parolamea","notes":"Este agile","age":24,"address":"Strada bulevard","creditCardNumber":"3758443095423189"}).then(
+			function(response) {
+				_user = response.data;
+			}, function(error) {
+				_error = 'Could not get the user details data from server.';
+				$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
+			});
+	};
+
 	service.getUser = function() {
 		return _user;
 	}
@@ -70,8 +81,13 @@ module.factory("UsersDetailService", function($http, $state) {
 		$state.go('users.list');
 	}
 
-	
-	
 	return service;
+
+});
+
+
+
+module.factory("UsersUpdateService", function($http) {
+
 
 });
