@@ -28,8 +28,8 @@ module.factory("UsersService", function($http, $state) {
 	    return Object.keys(obj);
 	}
 
-	service.goToUsersDetail = function(userNumber) {
-		$state.go('users.detail', {'userNumber':userNumber});
+	service.goToUsersDetail = function(userId) {
+		$state.go('users.detail', {'userId':userId});
 	};
 
 	return service;
@@ -38,16 +38,17 @@ module.factory("UsersService", function($http, $state) {
 
 
 
-module.factory("UsersDetailService", function($http, $state) {
+module.factory("UsersDetailService", function($http, $state, $timeout) {
 
-	var service = this, _user = {}, _error = false;
+	var service = this, _user = {}, _error = false, _statusMessage = false, _messageStyleClass = "";
 
-	service.initUsersDetail = function(userNumber) {
+	service.initUsersDetail = function(userId) {
 		
 		_user = {};
 		_error = false;
+		_statusMessage = false;
 		
-		return $http.get("http://localhost:8080/usersDetail?userNumber=" + userNumber).then(
+		return $http.get("http://localhost:8080/userDetail?userId=" + userId).then(
 			function(response) {
 				_user = response.data;
 				_user['confirmPassword'] = _user['password'];
@@ -59,22 +60,39 @@ module.factory("UsersDetailService", function($http, $state) {
 	};
 
 	service.updateUsersDetail = function() {	
-		return $http.post("http://localhost:8080/users", _user).then(
-		//return $http.post("http://localhost:8080/users", {"id":2,"userNumber":"474646593","userFullName":"Marius Marcu","email":"marius.marcu@email.com","city":"Mures","password":"parolamea","notes":"Este agile","age":24,"address":"Strada bulevard","creditCardNumber":"3758443095423189"}).then(
-			function(response) {
-				_user = response.data;
-			}, function(error) {
-				_error = 'Could not get the user details data from server.';
-				$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
-			});
+		
+		_error = false;
+       	_messageStyleClass = "alert-warning";
+       	_statusMessage = "Updating user. pending...";
+
+       	$timeout(function() {
+			return $http.post("http://localhost:8080/users", _user).then(
+				function(response) {
+					_user = response.data;
+			       	_messageStyleClass = "alert-success";
+					_statusMessage = "User saved succesfully";
+				}, function(error) {
+					_error = 'Could not get the user details data from server.';
+					$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
+				});
+		}, 2000);
+
 	};
 
 	service.getUser = function() {
 		return _user;
 	}
 
+	service.getStatusMessage = function() {
+		return _statusMessage;
+	}
+
 	service.getError = function() {
 		return _error;
+	}
+
+	service.getMessageStyleClass = function() {
+		return _messageStyleClass;
 	}
 
 	service.goToUsersListPage = function() {
@@ -82,12 +100,5 @@ module.factory("UsersDetailService", function($http, $state) {
 	}
 
 	return service;
-
-});
-
-
-
-module.factory("UsersUpdateService", function($http) {
-
 
 });

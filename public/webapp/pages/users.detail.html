@@ -3,7 +3,11 @@
 	<div ng-if="getError()" class="alert alert-danger">
 		<strong>Error!</strong> <span ng-bind="getError()"></span>
 	</div>
-{{getUser()}}
+
+	<div ng-if="getStatusMessage()" class="alert {{getMessageStyleClass()}}" >
+		<strong>Message:</strong> <span ng-bind="getStatusMessage()"></span>
+	</div>
+
 	<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
 		<div class="form-group">
 			<label for="inputUserId">User id(secret)</label>
@@ -20,18 +24,19 @@
 			<input type="text" class="form-control" name="userFullName" id="userFullName"
 					placeholder="Enter name" ng-model="getUser().userFullName"
 					required ng-minlength="3" ng-maxlength="50">
-            <p ng-show="userForm.userFullName.$error.required && !userForm.userFullName.$pristine" class="help-block">You name is required.</p>
-            <p ng-show="userForm.userFullName.$error.minlength && !userForm.userFullName.$pristine" class="help-block">Name is too short.</p>
-            <p ng-show="userForm.userFullName.$error.maxlength && !userForm.userFullName.$pristine" class="help-block">Name is too long.</p>
+			<div ng-messages="userForm.userFullName.$error" role="alert" class="error" ng-if="!userForm.userFullName.$pristine" ng-messages-multiple>
+				<div ng-messages-include="pages/utils/messages.html"></div>
+			</div>	    		
 		</div>
 		<div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
 			<label for="email">Email</label>
 			<input type="email" class="form-control" name="email" id="email"
 					placeholder="Enter email" ng-model="getUser().email"
 					check-email-already-taken>
-		    <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
 		    <p ng-show="userForm.email.$pending.checkEmailAlreadyTaken">Checking if this email is available...</p>
-		    <p ng-show="userForm.email.$error.checkEmailAlreadyTaken">This email is already taken!</p>
+			<div ng-messages="userForm.email.$error" role="alert" class="error" ng-if="!userForm.email.$pristine" ng-messages-multiple>
+				<div ng-messages-include="pages/utils/messages.html"></div>
+			</div>	    		
 		</div>
 		<div class="form-group">
 			<label for="city">City</label> 
@@ -43,14 +48,18 @@
 			<input type="password" class="form-control" name="password" id="password"
 					placeholder="Enter password" ng-model="getUser().password"
 					required >
-            <p ng-show="userForm.password.$error.required" && !userForm.confirmPassword.$pristine>required</p>
+			<div ng-messages="userForm.password.$error" role="alert" class="error" ng-if="!userForm.password.$pristine" ng-messages-multiple>
+				<div ng-messages-include="pages/utils/messages.html"></div>
+			</div>	    		
 		</div>
         <div class="form-group">
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" 
             		placeholder="Confirm password" ng-model="getUser().confirmPassword"
                 	required compare-to="getUser().password" />
-            <div ng-show="userForm.confirmPassword.$error.compareTo && !userForm.confirmPassword.$pristine" >Password must match the previous entry</div>
+			<div ng-messages="userForm.confirmPassword.$error" role="alert" class="error" ng-if="!userForm.confirmPassword.$pristine" ng-messages-multiple>
+				<div ng-messages-include="pages/utils/messages.html"></div>
+			</div>	    		
         </div>
 		<div class="form-group">
 			<label for="notes">Notes</label> 
@@ -61,9 +70,10 @@
 			<label for="inputAge">Age</label> 
 			<input type="number" class="form-control" name="inputAge" id="inputAge"
 					placeholder="Enter age" ng-model="getUser().age"
-					min="0" max="199" integer>
-			<p ng-show="userForm.inputAge.$error.integer">The value is not a valid number!</p>
-    		<p ng-show="userForm.inputAge.$error.min || userForm.inputAge.$error.max">The value is not a valid age!</p>
+					min="1" max="199" integer />
+			<div ng-messages="userForm.inputAge.$error" role="alert" class="error" ng-if="!userForm.inputAge.$pristine" ng-messages-multiple>
+				<div ng-messages-include="pages/utils/messages.html"></div>
+			</div>	    		
 		</div>
 		<div class="form-group">
 			<label for="address">Address</label>

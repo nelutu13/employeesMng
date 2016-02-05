@@ -7,12 +7,13 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import eu.isdc.employeesMng.exception.UserException;
 import eu.isdc.employeesMng.model.User;
 
 @Service
 public class UsersService {
 
-	public List<User> getUsers() {
+	public List<User> getUsers() throws UserException {
 
 		final List<User> usersList = new ArrayList<User>();
 
@@ -44,8 +45,10 @@ public class UsersService {
 
 		} catch (SQLException se) {
 			se.printStackTrace();
+            throw new UserException("SQL exception !!", se);
 		} catch (Exception e) {
 			e.printStackTrace();
+            throw new UserException("Some exception !!", e);
 		} finally {
 			try {
 				if (stmt != null) {
@@ -64,12 +67,11 @@ public class UsersService {
 			}
 		}
 
-		return null;
 	}
 	
 	
 
-	public User getUser(int userNumber) {
+	public User getUser(int userId) throws UserException {
 
 		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
 		final String USER = "root";
@@ -82,10 +84,10 @@ public class UsersService {
 
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
-			String query = "SELECT * FROM users WHERE user_number=?";
+			String query = "SELECT * FROM users WHERE id=?";
 
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, userNumber);
+			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
@@ -95,6 +97,8 @@ public class UsersService {
 						rs.getString("notes"), rs.getInt("age"),
 						rs.getString("address"),
 						rs.getString("credit_card_number"));
+			} else {
+	            throw new UserException("This user is not in database !!");
 			}
 
 			rs.close();
@@ -105,10 +109,10 @@ public class UsersService {
 			
 		} catch (SQLException se) {
 			se.printStackTrace();
-			return null;
+            throw new UserException("SQL exception !!", se);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+            throw new UserException("Some exception !! " + userId, e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -131,7 +135,7 @@ public class UsersService {
 
 
 	
-	public User updateUser(User modifiedUser) {
+	public User updateUser(User modifiedUser) throws UserException {
 		
 		//check user fields
 		
@@ -187,11 +191,15 @@ public class UsersService {
 							rs.getString("city"), rs.getString("password"),
 							rs.getString("notes"), rs.getInt("age"),
 							rs.getString("address"), rs.getString("credit_card_number"));
+				} else {
+		            throw new UserException("This user is not in database !!");
 				}
 
 				rs.close();
 				
-			} 
+			} else {
+	            throw new UserException("The user could not be updated !!");
+			}
 
 			ps.close();
 			conn.close();
@@ -200,10 +208,10 @@ public class UsersService {
 			
 		} catch (SQLException se) {
 			se.printStackTrace();
-			return null;
+            throw new UserException("SQL exception !!", se);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
+            throw new UserException("Some exception !!", e);
 		} finally {
 			try {
 				if (ps != null) {

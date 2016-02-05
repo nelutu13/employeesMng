@@ -25,7 +25,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in getUsers() | filter:search | orderBy:predicate:reverse">
-					<td ng-repeat="key in getKeysOfCollection(item)" ng-click="goToUsersDetail(item['userNumber'])">{{item[key]}}</td>
+					<td ng-repeat="key in getKeysOfCollection(item)" ng-click="goToUsersDetail(item['id'])">{{item[key]}}</td>
 				</tr>
 			</tbody>
 			<tfoot>

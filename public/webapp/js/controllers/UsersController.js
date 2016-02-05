@@ -1,6 +1,6 @@
 var module = angular.module("employeesMngApp");
 
-module.controller("UsersController", function($scope, $state, UsersService) {
+module.controller("UsersController", function($scope, UsersService) {
 
 	UsersService.initUsers();
 
@@ -23,27 +23,25 @@ module.controller("UsersController", function($scope, $state, UsersService) {
 
 
 
-module.controller("UsersDetailController", function($scope, $stateParams, UsersDetailService) {
+module.controller("UserDetailController", function($scope, $stateParams, UsersDetailService) {
 	
-	UsersDetailService.initUsersDetail($stateParams.userNumber);
+	UsersDetailService.initUsersDetail($stateParams.userId);
 	$scope.getUser = UsersDetailService.getUser;
 	$scope.getError = UsersDetailService.getError;
+	$scope.getStatusMessage = UsersDetailService.getStatusMessage;
+	$scope.getMessageStyleClass = UsersDetailService.getMessageStyleClass;
+	
 	$scope.goToUsersListPage = UsersDetailService.goToUsersListPage;
 
 	$scope.submitForm = function(isValid) {
 
 	    // check to make sure the form is completely valid
 	    if (isValid) {
-	    	alert('Our form is valid. You can submit the form now.');
 	    	UsersDetailService.updateUsersDetail();
+	    } else {
+	    	alert('The user form is not yet valid.');
 	    }
+	    
 	}
-
-});
-
-
-
-module.controller("UsersUpdateController", function($scope, UsersUpdateService) {
-	
 
 });

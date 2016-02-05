@@ -1,6 +1,6 @@
 'use strict'
 
-var employeesMngApp = angular.module('employeesMngApp', ['ui.router']);
+var employeesMngApp = angular.module('employeesMngApp', ['ui.router', 'ngMessages']);
 
 employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -27,9 +27,9 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
         })
     
         .state('users.detail', {
-            url: '/detail/:userNumber',
+            url: '/detail/:userId',
             templateUrl: 'pages/users.detail.html',
-            controller: 'UsersDetailController'
+            controller: 'UserDetailController'
         })
         
         // nested list with custom controller
@@ -89,7 +89,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 employeesMngApp.controller('zzz', function($scope) {
     
     $scope.message = 'test';
-   
+    
     $scope.scotches = [
         {
             name: 'Macallan 12',
