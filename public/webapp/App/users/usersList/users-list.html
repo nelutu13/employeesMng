@@ -9,7 +9,11 @@
     </div>
 
 	<div ng-if="getError()" class="alert alert-danger">
-  		<strong>Error!</strong> <span ng-bind="getError()"></span>
+		<strong>Error!</strong> <span ng-bind="getError()"></span>
+	</div>
+
+	<div ng-if="getStatusMessage()" class="alert {{getMessageStyleClass()}}" >
+		<strong>Message:</strong> <span ng-bind="getStatusMessage()"></span>
 	</div>
 
 	<!-- 	<h4>Search after: {{predicate}}</h4> -->
@@ -26,6 +30,11 @@
 			<tbody>
 				<tr ng-repeat="item in getUsers() | filter:search | orderBy:predicate:reverse">
 					<td ng-repeat="key in getKeysOfCollection(item)" ng-click="goToUsersDetail(item['id'])">{{item[key]}}</td>
+					<td>{{item['id']}}
+					
+					<button type="button" ng-click="deleteUser(item['id'])" >Delete</button>
+					
+			</td>
 				</tr>
 			</tbody>
 			<tfoot>
@@ -52,13 +61,6 @@
 			</tfoot>
 
 		</table>
-
-<!-- 		<div class="search"> -->
-<!-- 			<input type="text" class="form-control search" -->
-<!-- 				placeholder="Search for..." type="search" required="" -->
-<!-- 				ng-model="search" /> -->
-<!-- 		</div> -->
-
 
 	</div>
 

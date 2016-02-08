@@ -76,6 +76,12 @@ body
 	padding-top: 84px;
 }
 
+.errorPageContainer {
+	margin-top: 0;
+	padding: 15px;
+	padding-top: 84px;
+}
+
 .button-at-right { 
 	float: right;
 }

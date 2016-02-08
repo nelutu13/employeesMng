@@ -1,6 +1,6 @@
 'use strict'
 
-var employeesMngApp = angular.module('employeesMngApp', ['ui.router', 'ngMessages']);
+var employeesMngApp = angular.module('employeesMngApp', ['ui.router', 'ngMessages', 'ui.bootstrap']);
 
 employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
     
@@ -10,7 +10,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 
     	.state('home', {
 	        url: '/home',
-	        templateUrl: 'pages/home.html',
+	        templateUrl: 'App/home/home.html',
             controller: 'HomeController'
 	    })
     
@@ -22,29 +22,28 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 
 	    .state('users.list', {
             url: '/list',
-            templateUrl: 'pages/users.list.html',
-            controller: 'UsersController'
+            templateUrl: 'App/users/usersList/users-list.html',
+            controller: 'UsersListController'
         })
     
         .state('users.detail', {
             url: '/detail/:userId',
-            templateUrl: 'pages/users.detail.html',
-            controller: 'UserDetailController'
+            templateUrl: 'App/users/userDetails/user-details.html',
+            controller: 'UserDetailsController'
         })
         
         // nested list with custom controller
 	    .state('home.list', {
 	        url: '/list',
-	        templateUrl: 'pages/partial-home-list.html',
+	        templateUrl: 'App/home/partial-home-list.html',
 	        controller: function($scope) {
-	            $scope.dogs = ['Bernese', 'Husky', 'Goldendoodle'];
+	            $scope.dogs = ['Dog 1', 'Dog 2', 'Dog 3'];
 	        }
 	    })
 	
 	    // nested list with just some random string data
 	    .state('home.paragraph', {
 	        url: '/paragraph',
-	        
 	        template: 'I could sure use a drink right now.'
 	    })
     
@@ -54,7 +53,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 
 	            // the main template will be placed here (relatively named)
 	            '': { 
-	            	templateUrl: 'pages/partial-about.html',
+	            	templateUrl: 'App/about/partial-about.html',
                     controller: 'AboutController',
 	            		
 	            	},
@@ -64,8 +63,8 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 
 	            // for column two, we'll define a separate controller 
 	            'columnTwo@about': { 
-	                templateUrl: 'pages/table-data.html',
-	                controller: 'zzz'
+	                templateUrl: 'App/about/table-data.html',
+	                controller: 'AboutController'
 	            }
 	        }
 	    })
@@ -82,28 +81,3 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	    });
 
 });
-
-
-
-//let's define the scotch controller that we call up in the about state
-employeesMngApp.controller('zzz', function($scope) {
-    
-    $scope.message = 'test';
-    
-    $scope.scotches = [
-        {
-            name: 'Macallan 12',
-            price: 50
-        },
-        {
-            name: 'Chivas Regal Royal Salute',
-            price: 10000
-        },
-        {
-            name: 'Glenfiddich 1937',
-            price: 20000
-        }
-    ];
-    
-});
-

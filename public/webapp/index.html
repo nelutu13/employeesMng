@@ -9,24 +9,39 @@
 	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+
 <link rel="stylesheet" href="css/main.css" />
 
+
+
 <!-- JS (load angular, ui-router, and our custom js file) -->
-<script src="http://code.angularjs.org/1.4.0-rc.1/angular.js"></script>
-<script	src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
-<script	src="//cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.9/angular-messages.min.js"></script>
-	
-<script src="js/app.js"></script>
-<script src="js/utils/Constants.js"></script>
-<script src="js/services/UsersServices.js"></script>
-<script src="js/services/PageDataService.js"></script>
-<script src="js/services/ErrorPageService.js"></script>
-<script src="js/controllers/MainController.js"></script>
-<script src="js/controllers/UsersController.js"></script>
-<script src="js/controllers/HomeController.js"></script>
-<script src="js/controllers/AboutController.js"></script>
-<script src="js/controllers/ErrorPageController.js"></script>
-<script src="js/directives/UsersDetailDirectives.js"></script>
+<script 
+	src="http://code.angularjs.org/1.4.0-rc.1/angular.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.14/angular-ui-router.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/angular-messages/1.4.9/angular-messages.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.1.2/ui-bootstrap.min.js"></script>
+<script 
+	src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.9.0.js"></script>
+
+<script src="app.js"></script>
+<script src="App/common/constants.js"></script>
+<script src="components/user/usersList/usersList.service.js"></script>
+<script src="components/user/userDetails/userDetails.service.js"></script>
+<script src="components/common/pageData.service.js"></script>
+<script src="components/common/modalDelete.service.js"></script>
+<script src="components/errorPage/errorPage.service.js"></script>
+<script src="App/main/main.controller.js"></script>
+<script src="App/users/usersList/usersList.controller.js"></script>
+<script src="App/users/userDetails/userDetails.controller.js"></script>
+<script src="App/home/home.controller.js"></script>
+<script src="App/about/about.controller.js"></script>
+<script src="App/errorPage/errorPage.controller.js"></script>
+<script	src="App/common/validation/check-email-already-taken.js"></script>
+<script src="App/common/validation/compare-to.js"></script>
+<script src="App/common/validation/integer.js"></script>
 
 </head>
 
@@ -34,13 +49,13 @@
 
 	<!-- MAIN CONTENT -->
 	<div class="container" ng-controller="MainController">
-		
-		<div ng-include src="'pages/header.html'"></div>
-		
+
+		<div ng-include src="'App/common/header.html'"></div>
+
 		<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT -->
 		<div class="content" ui-view></div>
 
-		<div ng-include src="'pages/footer.html'"></div>
+		<div ng-include src="'App/common/footer.html'"></div>
 
 	</div>
 

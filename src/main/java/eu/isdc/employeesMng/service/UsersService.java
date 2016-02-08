@@ -13,7 +13,7 @@ import eu.isdc.employeesMng.model.User;
 @Service
 public class UsersService {
 
-	public List<User> getUsers() throws UserException {
+	public List<User> get() throws UserException {
 
 		final List<User> usersList = new ArrayList<User>();
 
@@ -135,7 +135,7 @@ public class UsersService {
 
 
 	
-	public User updateUser(User modifiedUser) throws UserException {
+	public User update(int userId, User modifiedUser) throws UserException {
 		
 		//check user fields
 		
@@ -171,7 +171,7 @@ public class UsersService {
 			ps.setInt(6, modifiedUser.getAge());
 			ps.setString(7, modifiedUser.getAddress());
 			ps.setString(8, modifiedUser.getCreditCardNumber());
-			ps.setInt(9, modifiedUser.getId());
+			ps.setInt(9, userId);
 
 			int rsCount = ps.executeUpdate();
 
@@ -181,7 +181,7 @@ public class UsersService {
 
 				ps.close();
 				ps = conn.prepareStatement(query);
-				ps.setInt(1, modifiedUser.getId());
+				ps.setInt(1, userId);
 				ResultSet rs = ps.executeQuery();
 
 				if (rs.next()) {
@@ -230,5 +230,75 @@ public class UsersService {
 			}
 		}
 	}
+
+
+	
+	public boolean delete(int userId) throws UserException {
+		
+		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
+		final String USER = "root";
+		final String PASS = "root";
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			
+			String query = "DELETE FROM users WHERE id = ?";
+
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, userId);
+
+			int rsCount = ps.executeUpdate();
+
+			if (rsCount == 0) {
+	            throw new UserException("The user could not be deleted !!");
+			}
+
+			ps.close();
+			conn.close();
+			
+			return true;
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+            throw new UserException("SQL exception !!", se);
+		} catch (Exception e) {
+			e.printStackTrace();
+            throw new UserException("Some exception !!", e);
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (SQLException se2) {
+				;
+			}
+
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+	}
+
+
+
+	public void validateUserId(String userId) throws UserException {
+
+		//validate mandatory field
+        if(userId == null){					throw new UserException("id is not present in request !!");}
+        try{Integer.parseInt(userId);}
+        catch(NumberFormatException e) {	throw new UserException("id is not a number !!");}
+        if(Integer.parseInt(userId) < 1){	throw new UserException("id is not valid !!");}
+        
+	}
+
+
+
+
 
 }

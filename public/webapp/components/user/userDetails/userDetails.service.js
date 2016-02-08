@@ -1,53 +1,13 @@
 var module = angular.module("employeesMngApp");
 
-module.factory("UsersService", function($http, $state) {
-
-	var service = this, _users = [], _error = false;
-	
-	service.initUsers = function() {
-		$http.get("http://localhost:8080/users").then(
-			function(response) {
-				_users = response.data;
-			}, function(error) {
-				_error = 'Could not get the users list from server.';
-			});
-	};
-	
-	service.getUsers = function() {
-		return _users;
-	}
-	
-	service.getError = function() {
-		return _error;
-	}
-	
-	service.getKeysOfCollection = function(obj) {
-	    if (!obj) {
-	      return [];
-	    }
-	    return Object.keys(obj);
-	}
-
-	service.goToUsersDetail = function(userId) {
-		$state.go('users.detail', {'userId':userId});
-	};
-
-	return service;
-
-});
-
-
-
-module.factory("UsersDetailService", function($http, $state, $timeout) {
+module.factory("UserDetailsService", function($http, $state, $timeout) {
 
 	var service = this, _user = {}, _error = false, _statusMessage = false, _messageStyleClass = "";
 
 	service.initUsersDetail = function(userId) {
 		
-		_user = {};
-		_error = false;
-		_statusMessage = false;
-		
+		_user = {}; _error = false; _statusMessage = false;	_messageStyleClass = "";
+			
 		return $http.get("http://localhost:8080/userDetail?userId=" + userId).then(
 			function(response) {
 				_user = response.data;
@@ -59,7 +19,7 @@ module.factory("UsersDetailService", function($http, $state, $timeout) {
 			});
 	};
 
-	service.updateUsersDetail = function() {	
+	service.updateUsersDetail = function() {
 		
 		_error = false;
        	_messageStyleClass = "alert-warning";
@@ -72,6 +32,7 @@ module.factory("UsersDetailService", function($http, $state, $timeout) {
 			       	_messageStyleClass = "alert-success";
 					_statusMessage = "User saved succesfully";
 				}, function(error) {
+					_statusMessage = false;
 					_error = 'Could not get the user details data from server.';
 					$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
 				});
@@ -83,12 +44,12 @@ module.factory("UsersDetailService", function($http, $state, $timeout) {
 		return _user;
 	}
 
-	service.getStatusMessage = function() {
-		return _statusMessage;
-	}
-
 	service.getError = function() {
 		return _error;
+	}
+
+	service.getStatusMessage = function() {
+		return _statusMessage;
 	}
 
 	service.getMessageStyleClass = function() {

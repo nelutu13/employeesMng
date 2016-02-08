@@ -166,4 +166,7 @@ public class User {
 //		values (NULL, '973648493', 'Anca Blagiu', 'anca.blagiu@email.com', 'Mures', 'parolamea', 'Este agile', 24, 'Strada bulevard', '4758493095423189');
 //	insert into users (id, user_number, user_full_name, email, city, password, notes, age, address, credit_card_number) 
 //		values (NULL, '373628593', 'Ionut Sigmirean', 'ionut.sigmirean@email.com', 'Mures', 'parolamea', 'Este agile', 24, 'Strada bulevard', '1758493095423189');
+
+//insert into users (id, user_number, user_full_name, email, city, password, notes, age, address, credit_card_number) 
+//values (NULL, '123456789', 'Riga Cripton', 'riga.cripton@email.com', 'city', 'passat', 'no ten', 99, 'Strada de strada', '1234567890123456');
 //		
