@@ -1,5 +1,5 @@
 <div class="usersDetailContainer">
-
+{{getUser()}}
 	<div ng-if="getError()" class="alert alert-danger">
 		<strong>Error!</strong> <span ng-bind="getError()"></span>
 	</div>
@@ -86,7 +86,7 @@
 					placeholder="Enter credit card number" ng-model="getUser().creditCardNumber"
 					payments-validate="VALIDATION_TYPE">
 		</div>
-		<button class="btn btn-default" ng-click="goToUsersListPage()">Back to users list</button>
+		<span class="btn btn-default" ng-click="goToUsersListPage()">Back to users list</span>
 		<button type="submit" class="btn btn-success button-at-right" ng-disabled="userForm.$invalid">Save user</button>
 	</form>
 

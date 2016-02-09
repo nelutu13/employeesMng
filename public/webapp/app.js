@@ -31,6 +31,12 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'App/users/userDetails/user-details.html',
             controller: 'UserDetailsController'
         })
+    
+        .state('users.create', {
+            url: '/create',
+            templateUrl: 'App/users/userDetails/user-details.html',
+            controller: 'UserCreateController'
+        })
         
         // nested list with custom controller
 	    .state('home.list', {
@@ -76,7 +82,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        	escapePageState: '',
 	        	buttonText: ''
 	        },
-	        templateUrl: 'pages/error_page.html',
+	        templateUrl: 'App/errorPage/error-page.html',
 	        controller: 'ErrorPageController'
 	    });
 

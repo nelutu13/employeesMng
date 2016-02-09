@@ -20,9 +20,9 @@ public class AppController {
     private UsersService userService;
     
     @RequestMapping(value="/users", method = RequestMethod.GET)
-    public List<User> get() throws UserException {
+    public List<User> read() throws UserException {
 
-    	return userService.get();
+    	return userService.read();
         
     }
 
@@ -40,6 +40,15 @@ public class AppController {
     
     
     @RequestMapping(value="/users", method = RequestMethod.POST)
+    public User create(@RequestBody User proposedUser) throws UserException {
+
+        return userService.create(proposedUser);
+
+    }
+
+    
+    
+    @RequestMapping(value="/users", method = RequestMethod.PUT)
     public User update(@RequestParam(value="userId") String userId, @RequestBody User modifiedUser) throws UserException {
 
         userService.validateUserId(userId);

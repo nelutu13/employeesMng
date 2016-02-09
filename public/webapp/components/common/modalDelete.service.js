@@ -5,7 +5,7 @@ angular.module('employeesMngApp').service(
 				function($modal) {
 
 					var modalDefaults = {
-						backdrop : true,
+						backdrop : "static",
 						keyboard : true,
 						modalFade : true,
 						templateUrl : 'App/common/modal-delete.html'
@@ -22,7 +22,7 @@ angular.module('employeesMngApp').service(
 							customModalOptions) {
 						if (!customModalDefaults)
 							customModalDefaults = {};
-						customModalDefaults.backdrop = 'static';
+						customModalDefaults.backdrop = "static";
 						return this.show(customModalDefaults,
 								customModalOptions);
 					};

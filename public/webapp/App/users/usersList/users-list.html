@@ -21,25 +21,36 @@
 		<table class="table table-striped table-hover">
 			<thead>
 				<tr>
-					<th ng-repeat="key in getKeysOfCollection(getUsers()[0])"
-						ng-click="updatePredicate(key)">{{key}} <span
-						ng-class="{'fa fa-sort-asc myGrey': reverse && key == predicate, 'fa fa-sort-desc  myGrey': !reverse && key == predicate, 'fa fa-sort  myGrey': key != predicate}"></span>
-					</th>
+					<th ng-click="updatePredicate('id')">id<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'id' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'id' == predicate, 'fa fa-sort  myGrey': 'id' != predicate}"></span></th>
+					<th ng-click="updatePredicate('userNumber')">userNumber<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'userNumber' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'userNumber' == predicate, 'fa fa-sort  myGrey': 'userNumber' != predicate}"></span></th>
+					<th ng-click="updatePredicate('userFullName')">userFullName<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'userFullName' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'userFullName' == predicate, 'fa fa-sort  myGrey': 'userFullName' != predicate}"></span></th>
+					<th ng-click="updatePredicate('email')">email<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'email' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'email' == predicate, 'fa fa-sort  myGrey': 'email' != predicate}"></span></th>
+					<th ng-click="updatePredicate('city')">city<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'city' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'city' == predicate, 'fa fa-sort  myGrey': 'city' != predicate}"></span></th>
+					<th ng-click="updatePredicate('notes')">notes<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'notes' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'notes' == predicate, 'fa fa-sort  myGrey': 'notes' != predicate}"></span></th>
+					<th ng-click="updatePredicate('age')">age<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'age' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'age' == predicate, 'fa fa-sort  myGrey': 'age' != predicate}"></span></th>
+					<th ng-click="updatePredicate('address')">address<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'address' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'address' == predicate, 'fa fa-sort  myGrey': 'address' != predicate}"></span></th>
+					<th ng-click="updatePredicate('creditCardNumber')">creditCardNumber<span ng-class="{'fa fa-sort-asc myGrey': reverse && 'creditCardNumber' == predicate, 'fa fa-sort-desc  myGrey': !reverse && 'creditCardNumber' == predicate, 'fa fa-sort  myGrey': 'creditCardNumber' != predicate}"></span></th>
+					<th ></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="item in getUsers() | filter:search | orderBy:predicate:reverse">
-					<td ng-repeat="key in getKeysOfCollection(item)" ng-click="goToUsersDetail(item['id'])">{{item[key]}}</td>
-					<td>{{item['id']}}
 					
-					<button type="button" ng-click="deleteUser(item['id'])" >Delete</button>
-					
-			</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['id']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['userNumber']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['userFullName']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['email']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['city']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['notes']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['age']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['address']}}</td>
+					<td ng-click="goToUsersDetail(item['id'])">{{item['creditCardNumber']}}</td>
+					<td><a class="btn btn-sm btn-danger" ng-click="deleteUser(item['id'])"><span class="glyphicon glyphicon-trash"></span></a></td>
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="3">{{sizes}}
+					<td colspan="10">
 						<div class="text-center">
 							<ul class="pagination">
 								<li ng-class="{disabled: currentPage == 0}"><a
@@ -56,6 +67,7 @@
 								</li>
 							</ul>
 						</div>
+						<a class="btn btn-primary btn-primary button-at-right" ng-click="goToUserCreate()"><span class="glyphicon glyphicon-plus"></span> Create new user</a>
 					</td>
 				</tr>
 			</tfoot>
@@ -63,5 +75,6 @@
 		</table>
 
 	</div>
+
 
 </div>

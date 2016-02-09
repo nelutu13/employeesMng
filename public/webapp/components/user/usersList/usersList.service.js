@@ -1,6 +1,6 @@
 var module = angular.module("employeesMngApp");
 
-module.factory("UsersListService", function($http, $state, $timeout, ModalDeleteService) {
+module.factory("UsersListService", function($http, $state, $timeout, $uibModal) {
 
 	var service = this, _users = [], _error = false, _statusMessage = false, _messageStyleClass = "";
 	
@@ -43,23 +43,6 @@ module.factory("UsersListService", function($http, $state, $timeout, ModalDelete
 		$state.go('users.detail', {'userId':userId});
 	};
 
-	service.deleteUser = function(userId) {
-
-		var modalOptions = {
-            closeButtonText: 'Cancel',
-            actionButtonText: 'Delete',
-            headerText: 'Delete ' + userId + '?',
-            bodyText: 'Are you sure you want to delete this user?'
-        };
-
-        ModalDeleteService.showModal({}, modalOptions).then(
-			function (result) {
-				service.deleteUserRequest(userId);
-			}
-		);
-		
-	};
-
 	service.deleteUserRequest = function(userId) {
 		
 		_error = false;
@@ -83,9 +66,34 @@ module.factory("UsersListService", function($http, $state, $timeout, ModalDelete
 		}, 2000);
 
 	};
+		
+	service.deleteUser = function(userId) {
+	
+		var modalInstance = $uibModal.open({
+			templateUrl : 'App/common/modal-delete.html',
+			controller : function($scope, $uibModalInstance) {
+				$scope.modalOptions = {
+					closeButtonText : 'Cancel',
+					actionButtonText : 'Delete',
+					headerText : 'Delete ' + userId + '?',
+					bodyText : 'Are you sure you want to delete this user?'
+				};
+				$scope.ok = function() {$uibModalInstance.close();};
+				$scope.cancel = function() {$uibModalInstance.dismiss('cancel');};
+			}
 
+		});
+
+		modalInstance.result.then(function() {
+			service.deleteUserRequest(userId);
+		});
 	
+	};
 	
+	service.goToUserCreate = function(userId) {
+		$state.go('users.create');
+	};
+
 	return service;
 
 });

@@ -1,6 +1,4 @@
-var module = angular.module("employeesMngApp");
-
-module.factory("UserDetailsService", function($http, $state, $timeout) {
+angular.module("employeesMngApp").factory("UserDetailsService", function($http, $state, $timeout) {
 
 	var service = this, _user = {}, _error = false, _statusMessage = false, _messageStyleClass = "";
 
@@ -26,7 +24,7 @@ module.factory("UserDetailsService", function($http, $state, $timeout) {
        	_statusMessage = "Updating user. pending...";
 
        	$timeout(function() {
-			return $http.post("http://localhost:8080/users", _user).then(
+			return $http.put("http://localhost:8080/users?userId=" + _user.id, _user).then(
 				function(response) {
 					_user = response.data;
 			       	_messageStyleClass = "alert-success";
