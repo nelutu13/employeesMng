@@ -9,7 +9,7 @@ public class User {
 	private String city;
 	private String password;
 	private String notes;
-	private int age;
+	private Integer age;
 	private String address;
 	private String creditCardNumber;
 	
@@ -19,7 +19,7 @@ public class User {
 
 	public User(
 
-			int id, 
+			int id,
 			String userNumber,
 			String userFullName,
 			String email,
@@ -99,11 +99,11 @@ public class User {
 		return notes;
 	}
 	
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
 	
-	public int getAge() {
+	public Integer getAge() {
 		return age;
 	}
 

@@ -7,14 +7,10 @@ angular.module("employeesMngApp").controller("UserDetailsController", function($
 	$scope.getMessageStyleClass = UserDetailsService.getMessageStyleClass;
 	$scope.goToUsersListPage = UserDetailsService.goToUsersListPage;
 
-	$scope.submitForm = function(isValid) {
+	$scope.submitForm = function() {
 
-		if (isValid) {
-			UserDetailsService.updateUsersDetail();
-		} else {
-			alert('The user form is not yet valid.');
-		}
-
+		UserDetailsService.updateUsersDetail();
+		
 	}
 
 });

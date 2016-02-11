@@ -14,13 +14,15 @@ import eu.isdc.employeesMng.model.User;
 @Service
 public class UsersService {
 
+	final static String DB_URL = "jdbc:mysql://localhost:3306/bsp";
+	final static String USER = "root";
+	final static String PASS = "root";
+
+	
+	
 	public List<User> read() throws UserException {
 
 		final List<User> usersList = new ArrayList<User>();
-
-		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
-		final String USER = "root";
-		final String PASS = "root";
 
 		Connection conn = null;
 		Statement stmt = null;
@@ -71,11 +73,117 @@ public class UsersService {
 
 	}
 
-	public User getUser(int userId) throws UserException {
+	
 
-		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
-		final String USER = "root";
-		final String PASS = "root";
+	public int usersPaginationCount() throws UserException {
+
+		Connection conn = null;
+		Statement stmt = null;
+		int totalNumberOfUsers = -1;
+		try {
+			
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			stmt = conn.createStatement();
+			String query = "SELECT COUNT(*) AS total FROM users";
+			ResultSet rs = stmt.executeQuery(query);
+
+			if(rs.next()){
+				totalNumberOfUsers = rs.getInt("total");
+			}
+						
+			rs.close();
+			stmt.close();
+			conn.close();
+
+			return totalNumberOfUsers; 
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+			throw new UserException("SQL exception !!", se);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException("Some exception !!", e);
+		} finally {
+			try {
+				if (stmt != null) {
+					stmt.close();
+				}
+			} catch (SQLException se2) {
+				;
+			}
+
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+
+	}
+
+	
+	
+	public List<User> read(int firstrow, int pageSize) throws UserException {
+
+		final List<User> usersList = new ArrayList<User>();
+
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			String query = "SELECT * FROM users LIMIT ?, ?";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, firstrow-1);
+			ps.setInt(2, pageSize);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				usersList.add(new User(rs.getInt("id"), rs
+						.getString("user_number"), rs
+						.getString("user_full_name"), rs.getString("email"), rs
+						.getString("city"), rs.getString("password"), rs
+						.getString("notes"), rs.getInt("age"), rs
+						.getString("address"), rs
+						.getString("credit_card_number")));
+			}
+	
+			rs.close();
+			ps.close();
+			conn.close();
+
+			return usersList;
+
+		} catch (SQLException se) {
+			se.printStackTrace();
+			throw new UserException("SQL exception !!", se);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new UserException("Some exception !!", e);
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+			} catch (SQLException se2) {
+				;
+			}
+
+			try {
+				if (conn != null) {
+					conn.close();
+				}
+			} catch (SQLException se) {
+				se.printStackTrace();
+			}
+		}
+
+	}
+
+	
+	
+	public User readUser(int userId) throws UserException {
 
 		User user = null;
 
@@ -133,16 +241,16 @@ public class UsersService {
 
 	}
 
-	public User create(User proposedUser) throws UserException {
-		//update user in database
-		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
-		final String USER = "root";
-		final String PASS = "root";
-
-		User createdUser = null;
+	public int create(User proposedUser) throws UserException {
 		
+		if(proposedUser.getId() != null) {
+			//this is not create, is actually an update
+			return update(proposedUser.getId(), proposedUser);
+		}
+				
 		Connection conn = null;
 		PreparedStatement ps = null;
+		
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			
@@ -159,7 +267,6 @@ public class UsersService {
 					+ "?, "
 					+ "?)";
 
-
 			ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, randomString(9));
 			ps.setString(2, proposedUser.getUserFullName());
@@ -167,40 +274,20 @@ public class UsersService {
 			ps.setString(4, proposedUser.getCity());
 			ps.setString(5, proposedUser.getPassword());
 			ps.setString(6, proposedUser.getNotes());
-			ps.setInt(7, proposedUser.getAge());
+			if(null == proposedUser.getAge()) {ps.setNull(7, java.sql.Types.NULL);} else {ps.setInt(7,proposedUser.getAge());}
 			ps.setString(8, proposedUser.getAddress());
 			ps.setString(9, proposedUser.getCreditCardNumber());
 
 			int rsCount = ps.executeUpdate();
-
+			int createdUserId = 0;
+			
 			if (rsCount == 1) {
 
 				ResultSet rs = ps.getGeneratedKeys();
 
 				if (rs.next()) {
 					
-					query = "SELECT * FROM users WHERE id=?";
-					int createdUserId = rs.getInt(1);
-					rs.close();
-					ps.close();
-					ps = conn.prepareStatement(query);
-					ps.setInt(1, createdUserId);
-					ResultSet rsQuery = ps.executeQuery();
-
-					if (rsQuery.next()) {
-						createdUser = new User(rsQuery.getInt("id"),
-								rsQuery.getString("user_number"),
-								rsQuery.getString("user_full_name"),
-								rsQuery.getString("email"), rsQuery.getString("city"),
-								rsQuery.getString("password"), rsQuery.getString("notes"),
-								rsQuery.getInt("age"), rsQuery.getString("address"),
-								rsQuery.getString("credit_card_number"));
-					} else {
-						throw new UserException("This user is not in database !!");
-					}
-					
-					rsQuery.close();
-					ps.close();
+					createdUserId = rs.getInt(1);
 
 				} else {
 		            throw new UserException("Something went wrong. Please try again !!");
@@ -215,7 +302,7 @@ public class UsersService {
 			ps.close();
 			conn.close();
 			
-			return createdUser;
+			return createdUserId;
 			
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -242,16 +329,9 @@ public class UsersService {
 		}
 	}
 
-	public User update(int userId, User modifiedUser) throws UserException {
-
-		// check user fields
-
-		// update user in database
-		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
-		final String USER = "root";
-		final String PASS = "root";
-
-		User updatedUser = null;
+	
+	
+	public int update(int userId, User modifiedUser) throws UserException {
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -269,44 +349,21 @@ public class UsersService {
 			ps.setString(3, modifiedUser.getCity());
 			ps.setString(4, modifiedUser.getPassword());
 			ps.setString(5, modifiedUser.getNotes());
-			ps.setInt(6, modifiedUser.getAge());
+			if(null == modifiedUser.getAge()) {ps.setNull(6, java.sql.Types.NULL);} else {ps.setInt(6,modifiedUser.getAge());}
 			ps.setString(7, modifiedUser.getAddress());
 			ps.setString(8, modifiedUser.getCreditCardNumber());
 			ps.setInt(9, userId);
 
 			int rsCount = ps.executeUpdate();
 
-			if (rsCount != 0) {
-
-				query = "SELECT * FROM users WHERE id=?";
-
-				ps.close();
-				ps = conn.prepareStatement(query);
-				ps.setInt(1, userId);
-				ResultSet rs = ps.executeQuery();
-
-				if (rs.next()) {
-					updatedUser = new User(rs.getInt("id"),
-							rs.getString("user_number"),
-							rs.getString("user_full_name"),
-							rs.getString("email"), rs.getString("city"),
-							rs.getString("password"), rs.getString("notes"),
-							rs.getInt("age"), rs.getString("address"),
-							rs.getString("credit_card_number"));
-				} else {
-					throw new UserException("This user is not in database !!");
-				}
-
-				rs.close();
-
-			} else {
+			if (rsCount != 1) {
 				throw new UserException("The user could not be updated !!");
 			}
 
 			ps.close();
 			conn.close();
 
-			return updatedUser;
+			return userId;
 
 		} catch (SQLException se) {
 			se.printStackTrace();
@@ -333,11 +390,9 @@ public class UsersService {
 		}
 	}
 
+	
+	
 	public boolean delete(int userId) throws UserException {
-
-		final String DB_URL = "jdbc:mysql://localhost:3306/bsp";
-		final String USER = "root";
-		final String PASS = "root";
 
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -385,24 +440,27 @@ public class UsersService {
 		}
 	}
 
-	public void validateUserId(String userId) throws UserException {
+	
+	
+	public void validateRequestParam(String param, String paramName) throws UserException {
 
 		// validate mandatory field
-		if (userId == null) {
-			throw new UserException("id is not present in request !!");
+		if (param == null) {
+			throw new UserException(paramName + " is not present in request !!");
 		}
 		try {
-			Integer.parseInt(userId);
+			Integer.parseInt(param);
 		} catch (NumberFormatException e) {
-			throw new UserException("id is not a number !!");
+			throw new UserException(paramName + " is not a number !!");
 		}
-		if (Integer.parseInt(userId) < 1) {
-			throw new UserException("id is not valid !!");
+		if (Integer.parseInt(param) < 1) {
+			throw new UserException(paramName + " is not valid !!");
 		}
 
 	}
 
-
+	
+	
 	public String randomString(int len) {
 		final String AB = "0123456789";
 		Random rnd = new Random();
@@ -412,5 +470,9 @@ public class UsersService {
 			sb.append(AB.charAt(rnd.nextInt(AB.length())));
 		return sb.toString();
 	}
-
+	
+	
+	
+	
+	
 }

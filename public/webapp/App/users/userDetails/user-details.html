@@ -1,5 +1,5 @@
 <div class="usersDetailContainer">
-{{getUser()}}
+
 	<div ng-if="getError()" class="alert alert-danger">
 		<strong>Error!</strong> <span ng-bind="getError()"></span>
 	</div>
@@ -8,7 +8,7 @@
 		<strong>Message:</strong> <span ng-bind="getStatusMessage()"></span>
 	</div>
 
-	<form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+	<form name="userForm" ng-submit="submitForm()" novalidate>
 		<div class="form-group">
 			<label for="inputUserId">User id(secret)</label>
 			<input type="text" class="form-control" name="inputUserId" id="inputUserId"
@@ -32,7 +32,7 @@
 			<label for="email">Email</label>
 			<input type="email" class="form-control" name="email" id="email"
 					placeholder="Enter email" ng-model="getUser().email"
-					check-email-already-taken>
+					check-email-already-taken required>
 		    <p ng-show="userForm.email.$pending.checkEmailAlreadyTaken">Checking if this email is available...</p>
 			<div ng-messages="userForm.email.$error" role="alert" class="error" ng-if="!userForm.email.$pristine" ng-messages-multiple>
 				<div ng-messages-include="App/common/messages.html"></div>

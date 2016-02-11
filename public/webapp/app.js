@@ -21,7 +21,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	    })
 
 	    .state('users.list', {
-            url: '/list',
+            url: '/list/:pageNumber',
             templateUrl: 'App/users/usersList/users-list.html',
             controller: 'UsersListController'
         })
@@ -43,7 +43,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        url: '/list',
 	        templateUrl: 'App/home/partial-home-list.html',
 	        controller: function($scope) {
-	            $scope.dogs = ['Dog 1', 'Dog 2', 'Dog 3'];
+	            $scope.dogs = ['List users', 'Create users', 'Update users', 'Delete users', 'Pagination'];
 	        }
 	    })
 	

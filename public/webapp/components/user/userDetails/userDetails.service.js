@@ -5,7 +5,7 @@ angular.module("employeesMngApp").factory("UserDetailsService", function($http, 
 	service.initUsersDetail = function(userId) {
 		
 		_user = {}; _error = false; _statusMessage = false;	_messageStyleClass = "";
-			
+		
 		return $http.get("http://localhost:8080/userDetail?userId=" + userId).then(
 			function(response) {
 				_user = response.data;
@@ -22,11 +22,10 @@ angular.module("employeesMngApp").factory("UserDetailsService", function($http, 
 		_error = false;
        	_messageStyleClass = "alert-warning";
        	_statusMessage = "Updating user. pending...";
-
+       	
        	$timeout(function() {
 			return $http.put("http://localhost:8080/users?userId=" + _user.id, _user).then(
 				function(response) {
-					_user = response.data;
 			       	_messageStyleClass = "alert-success";
 					_statusMessage = "User saved succesfully";
 				}, function(error) {
@@ -35,7 +34,7 @@ angular.module("employeesMngApp").factory("UserDetailsService", function($http, 
 					$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
 				});
 		}, 2000);
-
+       	
 	};
 
 	service.getUser = function() {

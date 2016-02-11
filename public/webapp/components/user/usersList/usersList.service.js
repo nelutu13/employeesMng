@@ -1,21 +1,48 @@
 var module = angular.module("employeesMngApp");
 
-module.factory("UsersListService", function($http, $state, $timeout, $uibModal) {
+module.factory("UsersListService", function($http, $state, $stateParams, $timeout, $uibModal) {
 
-	var service = this, _users = [], _error = false, _statusMessage = false, _messageStyleClass = "";
-	
+	var service = this, _users = [], _error = false, _statusMessage = false, _messageStyleClass = "", pages = [], totalNumberOfUsers = -1;
+	var pagination = {'current':1, 'first':1, 'last':1};
 	service.initUsers = function() {
 		
-		_users = []; _error = false; _statusMessage = false; _messageStyleClass = "";
+		_users = []; _error = false; _statusMessage = false; _messageStyleClass = ""; pages = []; totalNumberOfUsers = -1;
+		pagination = {'current':1, 'first':1, 'last':1};
 		
-		$http.get("http://localhost:8080/users").then(
-			function(response) {
-				_users = response.data;
-			}, function(error) {
-				_error = 'Could not get the users list from server.';
-			});
+		$http.get("http://localhost:8080/usersPaginationCount").then(
+				function(response) {
+					
+					totalNumberOfUsers = response.data;
+
+					pageSize = 3;//to do: move it to constants
+					numberOfPages = Math.ceil(totalNumberOfUsers / pageSize);
+					for(i = 1; i<=numberOfPages; i++) pages.push(i);
+					
+					if($stateParams.pageNumber == undefined) {$stateParams.pageNumber = 1;} if($stateParams.pageNumber < 1) {$stateParams.pageNumber = 1;}
+					firstrow = ($stateParams.pageNumber-1)*pageSize + 1;
+					
+					pagination = {'current':$stateParams.pageNumber, 'first':1, 'last':numberOfPages}
+					
+					$http.get("http://localhost:8080/usersPagination?firstrow=" + firstrow + "&pageSize=" + pageSize).then(
+						function(response) {
+							_users = response.data;
+						}, function(error) {
+							_error = 'Could not get the user list from server.';
+						});
+				}, function(error) {
+					_error = 'Could not get the user list from server.';
+				});
+
 	};
 
+	service.getPagination = function() {
+		return pagination;
+	}
+	
+	service.getPages = function() {
+		return pages;
+	}
+	
 	service.getUsers = function() {
 		return _users;
 	}
@@ -43,6 +70,22 @@ module.factory("UsersListService", function($http, $state, $timeout, $uibModal) 
 		$state.go('users.detail', {'userId':userId});
 	};
 
+	service.setCurrentPage = function(pageNumber) {
+		$state.go('users.list', {'pageNumber':pageNumber});
+	};
+	
+	service.setPrevPage = function(pageNumber) {
+		if(parseInt(pageNumber) > pagination.first) {
+			$state.go('users.list', {'pageNumber':(parseInt(pageNumber)-1)});
+		}
+	}
+	
+	service.setNextPage = function(pageNumber) {
+		if(parseInt(pageNumber) < pagination.last) {
+			$state.go('users.list', {'pageNumber':(parseInt(pageNumber)+1)});
+		}
+	}
+	
 	service.deleteUserRequest = function(userId) {
 		
 		_error = false;

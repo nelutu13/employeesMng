@@ -1,6 +1,6 @@
 angular.module("employeesMngApp").factory("UserCreateService", function($http, $state, $timeout) {
 
-	var service = this, _error = false, _statusMessage = false, _messageStyleClass = "";
+	var service = this, _user = {}, _error = false, _statusMessage = false, _messageStyleClass = "";
 	
 	service.initUserCreate = function(userId) {
 		
@@ -36,10 +36,9 @@ angular.module("employeesMngApp").factory("UserCreateService", function($http, $
 
        	$timeout(function() {
 			return $http.post("http://localhost:8080/users", _user).then(
-			//return $http.post("http://localhost:8080/users", {"userNumber":"411148844","userFullName":"Ion Mfarcuz as","email":"iost.mnarcu@email.com","city":"Mureseni","password":"parolamea","notes":"Este agile","age":24,"address":"Strada bulevard","creditCardNumber":"4758493095423189","confirmPassword":"parolamea"}).then(
-					
 				function(response) {
-					_user = response.data;
+					debugger;
+					_user.id = response.data;
 			       	_messageStyleClass = "alert-success";
 					_statusMessage = "User saved succesfully";
 				}, function(error) {
@@ -47,7 +46,7 @@ angular.module("employeesMngApp").factory("UserCreateService", function($http, $
 					_error = 'Could not get the user details data from server.';
 					$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
 				});
-		}, 2000);
+       	}, 2000);
 
 	};
 

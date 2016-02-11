@@ -10,11 +10,7 @@ angular.module("employeesMngApp").controller("UserCreateController", function($s
 
 	$scope.submitForm = function(isValid) {
 
-		if (isValid) {
-			UserCreateService.createUser();
-		} else {
-			alert('The user form is not yet valid.');
-		}
+		UserCreateService.createUser();
 
 	}
 

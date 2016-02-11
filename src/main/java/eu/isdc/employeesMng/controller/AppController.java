@@ -19,28 +19,51 @@ public class AppController {
     @Autowired
     private UsersService userService;
     
+
+    
     @RequestMapping(value="/users", method = RequestMethod.GET)
     public List<User> read() throws UserException {
 
     	return userService.read();
         
     }
+    
 
+    
+    @RequestMapping(value="/usersPaginationCount", method = RequestMethod.GET)
+    public int usersPaginationCount() throws UserException {
+
+    	return userService.usersPaginationCount();
+        
+    }
+    
+    
+    
+    @RequestMapping(value="/usersPagination", method = RequestMethod.GET)
+    public List<User> read(@RequestParam(value="firstrow") String firstrow, @RequestParam(value="pageSize") String pageSize) throws UserException {
+
+        userService.validateRequestParam(firstrow, "firstrow");
+        userService.validateRequestParam(pageSize, "pageSize");
+
+        return userService.read(Integer.parseInt(firstrow), Integer.parseInt(pageSize));
+    	
+    }
+    
     
     
     @RequestMapping(value="/userDetail", method = RequestMethod.GET)
-    public User getUser(@RequestParam(value="userId") String userId) throws UserException {
+    public User readUser(@RequestParam(value="userId") String userId) throws UserException {
 
-        userService.validateUserId(userId);
+        userService.validateRequestParam(userId, "userId");
 
-        return userService.getUser(Integer.parseInt(userId));
+        return userService.readUser(Integer.parseInt(userId));
     	
     }
 
     
     
     @RequestMapping(value="/users", method = RequestMethod.POST)
-    public User create(@RequestBody User proposedUser) throws UserException {
+    public int create(@RequestBody User proposedUser) throws UserException {
 
         return userService.create(proposedUser);
 
@@ -49,9 +72,9 @@ public class AppController {
     
     
     @RequestMapping(value="/users", method = RequestMethod.PUT)
-    public User update(@RequestParam(value="userId") String userId, @RequestBody User modifiedUser) throws UserException {
+    public int update(@RequestParam(value="userId") String userId, @RequestBody User modifiedUser) throws UserException {
 
-        userService.validateUserId(userId);
+        userService.validateRequestParam(userId, "userId");
         
         return userService.update(Integer.parseInt(userId), modifiedUser);
 
@@ -62,10 +85,9 @@ public class AppController {
     @RequestMapping(value="/users", method = RequestMethod.DELETE)
     public boolean delete(@RequestParam(value="userId") String userId) throws UserException {
 
-        userService.validateUserId(userId);
+        userService.validateRequestParam(userId, "userId");
 
         return userService.delete(Integer.parseInt(userId));
-        //return false;
 
     }
 
