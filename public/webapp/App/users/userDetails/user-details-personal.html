@@ -1,0 +1,89 @@
+<div ng-if="getError()" class="alert alert-danger">
+	<strong>Error!</strong> <span ng-bind="getError()"></span>
+</div>
+<div ng-if="getStatusMessage()" class="alert {{getMessageStyleClass()}}" >
+	<strong>Message:</strong> <span ng-bind="getStatusMessage()"></span>
+</div>
+
+<form name="userForm" ng-submit="submitForm()" novalidate>
+
+	<div class="form-group">
+		<label for="inputUserId">User id(secret)</label>
+		<input type="text" class="form-control" name="inputUserId" id="inputUserId"
+				placeholder="You should not see this" ng-model="getUser().id">
+	</div>
+	<div class="form-group">
+		<label for="userNumber">User number(secret)</label>
+		<input type="text" class="form-control" name="userNumber" id="userNumber"
+				placeholder="You should not see this" ng-model="getUser().userNumber">
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : userForm.userFullName.$invalid && !userForm.userFullName.$pristine }">
+		<label for="userFullName">Name</label>
+		<input type="text" class="form-control" name="userFullName" id="userFullName"
+				placeholder="Enter name" ng-model="getUser().userFullName"
+				required ng-minlength="3" ng-maxlength="50">
+		<div ng-messages="userForm.userFullName.$error" role="alert" class="error" ng-if="!userForm.userFullName.$pristine" ng-messages-multiple>
+			<div ng-messages-include="App/common/messages.html"></div>
+		</div>
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+		<label for="email">Email</label>
+		<input type="email" class="form-control" name="email" id="email"
+				placeholder="Enter email" ng-model="getUser().email"
+				check-email-already-taken required>
+	    <p ng-show="userForm.email.$pending.checkEmailAlreadyTaken">Checking if this email is available...</p>
+		<div ng-messages="userForm.email.$error" role="alert" class="error" ng-if="!userForm.email.$pristine" ng-messages-multiple>
+			<div ng-messages-include="App/common/messages.html"></div>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="city">City</label> 
+		<input type="text" class="form-control" name="city" id="city" 
+				placeholder="Enter city" ng-model="getUser().city">
+	</div>
+	<div class="form-group">
+		<label for="password">Password</label> 
+		<input type="password" class="form-control" name="password" id="password"
+				placeholder="Enter password" ng-model="getUser().password"
+				required >
+		<div ng-messages="userForm.password.$error" role="alert" class="error" ng-if="!userForm.password.$pristine" ng-messages-multiple>
+			<div ng-messages-include="App/common/messages.html"></div>
+		</div>	    		
+	</div>
+       <div class="form-group">
+           <label for="confirmPassword">Confirm Password</label>
+           <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" 
+           		placeholder="Confirm password" ng-model="getUser().confirmPassword"
+               	required compare-to="getUser().password" />
+			<div ng-messages="userForm.confirmPassword.$error" role="alert" class="error" ng-if="!userForm.confirmPassword.$pristine" ng-messages-multiple>
+				<div ng-messages-include="App/common/messages.html"></div>
+			</div>
+       </div>
+	<div class="form-group">
+		<label for="notes">Notes</label> 
+		<input type="text" class="form-control" name="notes" id="notes" 
+				placeholder="Enter notes" ng-model="getUser().notes">
+	</div>
+	<div class="form-group" ng-class="{ 'has-error' : userForm.inputAge.$invalid && !userForm.inputAge.$pristine }">
+		<label for="inputAge">Age</label> 
+		<input type="number" class="form-control" name="inputAge" id="inputAge"
+				placeholder="Enter age" ng-model="getUser().age"
+				min="1" max="199" integer />
+		<div ng-messages="userForm.inputAge.$error" role="alert" class="error" ng-if="!userForm.inputAge.$pristine" ng-messages-multiple>
+			<div ng-messages-include="App/common/messages.html"></div>
+		</div>	    		
+	</div>
+	<div class="form-group">
+		<label for="address">Address</label>
+		<input type="text" class="form-control" name="address" id="address" 
+				placeholder="Enter address" ng-model="getUser().address">
+	</div>	
+	<div class="form-group">
+		<label for="creditCardNumber">Credit Card</label>
+		<input type="text" class="form-control" name="inputCreditCard" id="inputCreditCard" 
+				placeholder="Enter credit card number" ng-model="getUser().creditCardNumber"
+				payments-validate="VALIDATION_TYPE">
+	</div>
+	<span class="btn btn-default" ng-click="goToUsersListPage()">Back to users list</span>
+	<button type="submit" class="btn btn-success button-at-right" ng-disabled="userForm.$invalid">Save user</button>
+</form>

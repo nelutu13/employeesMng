@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 import eu.isdc.employeesMng.service.UsersService;
+import eu.isdc.employeesMng.service.UserHolidaysService;
 import eu.isdc.employeesMng.model.User;
+import eu.isdc.employeesMng.model.Holidays;
 import eu.isdc.employeesMng.exception.UserException;
 
 @RestController
@@ -18,9 +20,12 @@ public class AppController {
 
     @Autowired
     private UsersService userService;
-    
 
-    
+    @Autowired
+    private UserHolidaysService userHolidaysService;
+
+
+
     @RequestMapping(value="/users", method = RequestMethod.GET)
     public List<User> read() throws UserException {
 
@@ -31,7 +36,7 @@ public class AppController {
 
     
     @RequestMapping(value="/usersPaginationCount", method = RequestMethod.GET)
-    public int usersPaginationCount() throws UserException {
+    public Integer usersPaginationCount() throws UserException {
 
     	return userService.usersPaginationCount();
         
@@ -59,13 +64,33 @@ public class AppController {
         return userService.readUser(Integer.parseInt(userId));
     	
     }
+    
+    
+    
+    @RequestMapping(value="/userHolidays", method = RequestMethod.GET)
+    public List<Holidays> readHolidays(@RequestParam(value="userId") String userId) throws UserException {
 
-    
-    
+    	userHolidaysService.validateRequestParam(userId, "userId");
+
+        return userHolidaysService.read(Integer.parseInt(userId));
+
+    }
+
+
+
     @RequestMapping(value="/users", method = RequestMethod.POST)
     public int create(@RequestBody User proposedUser) throws UserException {
 
         return userService.create(proposedUser);
+
+    }
+
+
+
+    @RequestMapping(value="/userHolidays", method = RequestMethod.POST)
+    public void createUserHolidays(@RequestBody Holidays proposedUserHolidays) throws UserException {
+
+        userHolidaysService.createUserHolidays(proposedUserHolidays);
 
     }
 

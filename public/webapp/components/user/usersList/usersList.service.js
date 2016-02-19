@@ -67,7 +67,7 @@ module.factory("UsersListService", function($http, $state, $stateParams, $timeou
 	}
 
 	service.goToUsersDetail = function(userId) {
-		$state.go('users.detail', {'userId':userId});
+		$state.go('users.details.personal', {'userId':userId});
 	};
 
 	service.setCurrentPage = function(pageNumber) {
@@ -134,7 +134,7 @@ module.factory("UsersListService", function($http, $state, $stateParams, $timeou
 	};
 	
 	service.goToUserCreate = function(userId) {
-		$state.go('users.create');
+		$state.go('users.details.create');
 	};
 
 	return service;

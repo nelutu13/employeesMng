@@ -13,7 +13,20 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        templateUrl: 'App/home/home.html',
             controller: 'HomeController'
 	    })
-    
+        
+	    .state('home.list', {
+	        url: '/list',
+	        templateUrl: 'App/home/partial-home-list.html',
+	        controller: function($scope) {
+	            $scope.dogs = ['List users', 'Create users', 'Update users', 'Delete users', 'Pagination'];
+	        }
+	    })
+
+	    .state('home.desc', {
+	        url: '/desc',
+	        template: 'This app demonstrates the use of REST services using angular in fornt-end(the client) and java spring-boot on back-end(the server).'
+	    })
+
 	    .state('users', {
 	        abstract: true,
 	        url: '/users',
@@ -25,49 +38,42 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'App/users/usersList/users-list.html',
             controller: 'UsersListController'
         })
-    
-        .state('users.detail', {
-            url: '/detail/:userId',
+
+        .state('users.details', {
+            url: '/details/:userId',
             templateUrl: 'App/users/userDetails/user-details.html',
             controller: 'UserDetailsController'
         })
-    
-        .state('users.create', {
+
+        .state('users.details.personal', {
+            url: '/personal',
+            templateUrl: 'App/users/userDetails/user-details-personal.html',
+            controller: 'UserDetailsPersonalController'
+        })
+
+        .state('users.details.holidays', {
+            url: '/holidays',
+            templateUrl: 'App/users/userDetails/user-details-holidays.html',
+            controller: 'UserDetailsHolidaysController'
+        })
+
+        .state('users.details.create', {
             url: '/create',
-            templateUrl: 'App/users/userDetails/user-details.html',
+            templateUrl: 'App/users/userDetails/user-details-personal.html',
             controller: 'UserCreateController'
         })
-        
-        // nested list with custom controller
-	    .state('home.list', {
-	        url: '/list',
-	        templateUrl: 'App/home/partial-home-list.html',
-	        controller: function($scope) {
-	            $scope.dogs = ['List users', 'Create users', 'Update users', 'Delete users', 'Pagination'];
-	        }
-	    })
-	
-	    // nested list with just some random string data
-	    .state('home.paragraph', {
-	        url: '/paragraph',
-	        template: 'I could sure use a drink right now.'
-	    })
-    
+
 	    .state('about', {
 	        url: '/about',
 	        views: {
 
-	            // the main template will be placed here (relatively named)
-	            '': { 
+	            '': {
 	            	templateUrl: 'App/about/partial-about.html',
-                    controller: 'AboutController',
-	            		
-	            	},
+                    controller: 'AboutController'
+            	},
 
-	            // the child views will be defined here (absolutely named)
-	            'columnOne@about': { template: 'Look I am a column!' },
+	            'columnOne@about': { template: 'List of authors:' },
 
-	            // for column two, we'll define a separate controller 
 	            'columnTwo@about': { 
 	                templateUrl: 'App/about/table-data.html',
 	                controller: 'AboutController'
@@ -86,4 +92,20 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        controller: 'ErrorPageController'
 	    });
 
-});
+})
+.run(function($rootScope, $state) {
+    
+	$rootScope.xstates = {};
+    
+    function updateStates() {
+
+      angular.forEach($state.get(), function (state) {
+    	  $rootScope.xstates[state.name] = $state.includes(state.name);
+      });
+    }
+    
+    $rootScope.$on('$stateChangeSuccess', function() {
+    	updateStates();
+    })
+    
+  });

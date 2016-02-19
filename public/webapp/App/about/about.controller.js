@@ -1,21 +1,19 @@
 var module = angular.module("employeesMngApp");
 
 module.controller("AboutController", function($scope) {
-
-    $scope.message = 'test';
     
-    $scope.scotches = [
+    $scope.authors = [
         {
-            name: 'Macallan 12',
-            price: 50
+            name: 'Author 1',
+            LOCs: 1 
         },
         {
-            name: 'Chivas Regal Royal Salute',
-            price: 10000
+            name: 'Author 2',
+            LOCs: 1
         },
         {
-            name: 'Glenfiddich 1937',
-            price: 20000
+            name: 'Superviser 1',
+            LOCs: 1
         }
     ];
 

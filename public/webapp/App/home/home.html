@@ -3,7 +3,11 @@
     <p>This page demonstrates <span class="text-danger">nested</span> views.</p>
     
     <a ui-sref=".list" class="btn btn-primary">List</a>
-    <a ui-sref=".paragraph" class="btn btn-danger">Paragraph</a>    
+    <a ui-sref=".desc" class="btn btn-danger">Description</a>    
 </div>
+
+<ul>
+    <li ng-repeat="birthday in birthdays">{{ birthday }}</li>
+</ul>
 
 <div ui-view></div>

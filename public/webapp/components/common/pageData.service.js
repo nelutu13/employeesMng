@@ -1,6 +1,4 @@
-var module = angular.module("employeesMngApp");
-
-module.factory("PageDataService", function($state, PAGE_DESC) {
+angular.module("employeesMngApp").factory("PageDataService", function($state, PAGE_DESC) {
 	
 	var service = this;
 	

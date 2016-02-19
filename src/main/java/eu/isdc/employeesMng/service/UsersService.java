@@ -18,8 +18,8 @@ public class UsersService {
 	final static String USER = "root";
 	final static String PASS = "root";
 
-	
-	
+
+
 	public List<User> read() throws UserException {
 
 		final List<User> usersList = new ArrayList<User>();
@@ -32,13 +32,15 @@ public class UsersService {
 			String query = "SELECT * FROM users";
 			ResultSet rs = stmt.executeQuery(query);
 			while (rs.next()) {
-				usersList.add(new User(rs.getInt("id"), rs
-						.getString("user_number"), rs
-						.getString("user_full_name"), rs.getString("email"), rs
-						.getString("city"), rs.getString("password"), rs
-						.getString("notes"), rs.getInt("age"), rs
-						.getString("address"), rs
-						.getString("credit_card_number")));
+				usersList.add(new User(
+										rs.getInt("id"), rs.getString("user_number"), 
+										rs.getString("user_full_name"), rs.getString("email"), 
+										rs.getString("city"), rs.getString("password"), 
+										rs.getString("notes"), rs.getInt("age"),
+										rs.getInt("holidays"), rs.getString("address"), 
+										rs.getString("credit_card_number")
+									)
+				);
 			}
 
 			rs.close();
@@ -75,11 +77,11 @@ public class UsersService {
 
 	
 
-	public int usersPaginationCount() throws UserException {
+	public Integer usersPaginationCount() throws UserException {
 
 		Connection conn = null;
 		Statement stmt = null;
-		int totalNumberOfUsers = -1;
+		Integer totalNumberOfUsers = -1;
 		try {
 			
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
@@ -140,13 +142,15 @@ public class UsersService {
 			ps.setInt(2, pageSize);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				usersList.add(new User(rs.getInt("id"), rs
-						.getString("user_number"), rs
-						.getString("user_full_name"), rs.getString("email"), rs
-						.getString("city"), rs.getString("password"), rs
-						.getString("notes"), rs.getInt("age"), rs
-						.getString("address"), rs
-						.getString("credit_card_number")));
+				usersList.add(new User(
+										rs.getInt("id"), rs.getString("user_number"), 
+										rs.getString("user_full_name"), rs.getString("email"), 
+										rs.getString("city"), rs.getString("password"), 
+										rs.getString("notes"), rs.getInt("age"),
+										rs.getInt("holidays"), rs.getString("address"), 
+										rs.getString("credit_card_number")
+										)
+				);
 			}
 	
 			rs.close();
@@ -199,12 +203,14 @@ public class UsersService {
 			ResultSet rs = ps.executeQuery();
 
 			if (rs.next()) {
-				user = new User(rs.getInt("id"), rs.getString("user_number"),
-						rs.getString("user_full_name"), rs.getString("email"),
-						rs.getString("city"), rs.getString("password"),
+				user = new User(
+						rs.getInt("id"), rs.getString("user_number"), 
+						rs.getString("user_full_name"), rs.getString("email"), 
+						rs.getString("city"), rs.getString("password"), 
 						rs.getString("notes"), rs.getInt("age"),
-						rs.getString("address"),
-						rs.getString("credit_card_number"));
+						rs.getInt("holidays"), rs.getString("address"), 
+						rs.getString("credit_card_number")
+				);
 			} else {
 				throw new UserException("This user is not in database !!");
 			}
@@ -241,6 +247,8 @@ public class UsersService {
 
 	}
 
+	
+	
 	public int create(User proposedUser) throws UserException {
 		
 		if(proposedUser.getId() != null) {
@@ -274,7 +282,7 @@ public class UsersService {
 			ps.setString(4, proposedUser.getCity());
 			ps.setString(5, proposedUser.getPassword());
 			ps.setString(6, proposedUser.getNotes());
-			if(null == proposedUser.getAge()) {ps.setNull(7, java.sql.Types.NULL);} else {ps.setInt(7,proposedUser.getAge());}
+			if(null == proposedUser.getAge()) {ps.setNull(7, java.sql.Types.NULL);} else {ps.setInt(7, proposedUser.getAge());}
 			ps.setString(8, proposedUser.getAddress());
 			ps.setString(9, proposedUser.getCreditCardNumber());
 

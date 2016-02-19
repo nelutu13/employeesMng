@@ -37,7 +37,6 @@ angular.module("employeesMngApp").factory("UserCreateService", function($http, $
        	$timeout(function() {
 			return $http.post("http://localhost:8080/users", _user).then(
 				function(response) {
-					debugger;
 					_user.id = response.data;
 			       	_messageStyleClass = "alert-success";
 					_statusMessage = "User saved succesfully";

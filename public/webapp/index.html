@@ -33,13 +33,21 @@
 <script src="app.js"></script>
 <script src="App/common/constants.js"></script>
 <script src="components/user/usersList/usersList.service.js"></script>
+
+<script src="components/user/userDetails/userDetailsPersonal.service.js"></script>
+<script src="components/user/userDetails/userDetailsHolidays.service.js"></script>
 <script src="components/user/userDetails/userDetails.service.js"></script>
+
 <script src="components/user/userDetails/userCreate.service.js"></script>
 <script src="components/common/pageData.service.js"></script>
 <script src="components/errorPage/errorPage.service.js"></script>
 <script src="App/main/main.controller.js"></script>
 <script src="App/users/usersList/usersList.controller.js"></script>
+
+<script src="App/users/userDetails/userDetailsPersonal.controller.js"></script>
+<script src="App/users/userDetails/userDetailsHolidays.controller.js"></script>
 <script src="App/users/userDetails/userDetails.controller.js"></script>
+
 <script src="App/users/userDetails/userCreate.controller.js"></script>
 <script src="App/home/home.controller.js"></script>
 <script src="App/about/about.controller.js"></script>
@@ -47,6 +55,7 @@
 <script	src="App/common/validation/check-email-already-taken.js"></script>
 <script src="App/common/validation/compare-to.js"></script>
 <script src="App/common/validation/integer.js"></script>
+<script src="App/common/validation/check-date-picker.js"></script>
 
 </head>
 
@@ -58,7 +67,7 @@
 		<div ng-include src="'App/common/header.html'"></div>
 
 		<!-- THIS IS WHERE WE WILL INJECT OUR CONTENT -->
-		<div class="content" ui-view></div>
+		<div class="content" ui-view style="background-color: #cceeff;"></div>
 
 		<div ng-include src="'App/common/footer.html'"></div>
 

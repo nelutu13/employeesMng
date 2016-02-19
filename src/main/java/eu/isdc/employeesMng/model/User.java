@@ -10,6 +10,7 @@ public class User {
 	private String password;
 	private String notes;
 	private Integer age;
+	private Integer holidays;
 	private String address;
 	private String creditCardNumber;
 	
@@ -19,14 +20,15 @@ public class User {
 
 	public User(
 
-			int id,
+			Integer id,
 			String userNumber,
 			String userFullName,
 			String email,
 			String city,
 			String password,
 			String notes,
-			int age,
+			Integer age,
+			Integer holidays,
 			String address,
 			String creditCardNumber) {
 		
@@ -38,6 +40,7 @@ public class User {
 		this.password = password;
 		this.notes = notes;
 		this.age = age;
+		this.holidays = holidays;
 		this.address = address;
 		this.creditCardNumber = creditCardNumber;
 
@@ -106,6 +109,14 @@ public class User {
 	public Integer getAge() {
 		return age;
 	}
+	
+	public void setHolidays(Integer holidays) {
+		this.holidays = holidays;
+	}
+	
+	public Integer getHolidays() {
+		return holidays;
+	}
 
 	public void setAddress(String address) {
 		this.address = address;
@@ -137,7 +148,8 @@ public class User {
 //		age INT(3),
 //	    address VARCHAR(80) NOT NULL,
 //		credit_card_number varchar(16), 
-//
+//		holidays INT(3) NOT NULL DEFAULT 21,
+
 //		PRIMARY KEY (id),
 //		UNIQUE (email),
 //		UNIQUE (user_number)
@@ -169,4 +181,3 @@ public class User {
 
 //insert into users (id, user_number, user_full_name, email, city, password, notes, age, address, credit_card_number) 
 //values (NULL, '123456789', 'Riga Cripton', 'riga.cripton@email.com', 'city', 'passat', 'no ten', 99, 'Strada de strada', '1234567890123456');
-//		

@@ -1,62 +1,20 @@
-angular.module("employeesMngApp").factory("UserDetailsService", function($http, $state, $timeout) {
+angular.module("employeesMngApp").factory("UserDetailsService", function($state, TAB_DESC) {
 
-	var service = this, _user = {}, _error = false, _statusMessage = false, _messageStyleClass = "";
+	var service = this;
+	
+	service.getTabDesc = function() {
 
-	service.initUsersDetail = function(userId) {
-		
-		_user = {}; _error = false; _statusMessage = false;	_messageStyleClass = "";
-		
-		return $http.get("http://localhost:8080/userDetail?userId=" + userId).then(
-			function(response) {
-				_user = response.data;
-				_user['confirmPassword'] = _user['password'];
+		if (TAB_DESC[$state.current.name] != undefined)
+		{
+			return TAB_DESC[$state.current.name];
 			
-			}, function(error) {
-				_error = 'Could not get the user details data from server.';
-				$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
-			});
-	};
-
-	service.updateUsersDetail = function() {
-		
-		_error = false;
-       	_messageStyleClass = "alert-warning";
-       	_statusMessage = "Updating user. pending...";
-       	
-       	$timeout(function() {
-			return $http.put("http://localhost:8080/users?userId=" + _user.id, _user).then(
-				function(response) {
-			       	_messageStyleClass = "alert-success";
-					_statusMessage = "User saved succesfully";
-				}, function(error) {
-					_statusMessage = false;
-					_error = 'Could not get the user details data from server.';
-					$state.go('error_page', {'errorDesc':_error, 'escapePageState':'users.list', 'buttonText':'Back to users list'});
-				});
-		}, 2000);
-       	
-	};
-
-	service.getUser = function() {
-		return _user;
+		} else {
+			
+			return 'The state "' + $state.current.name + '" is not defined.';
+			
+		}
 	}
-
-	service.getError = function() {
-		return _error;
-	}
-
-	service.getStatusMessage = function() {
-		return _statusMessage;
-	}
-
-	service.getMessageStyleClass = function() {
-		return _messageStyleClass;
-	}
-
-	service.goToUsersListPage = function() {
-		$state.go('users.list');
-	}
-
+	
 	return service;
 
 });

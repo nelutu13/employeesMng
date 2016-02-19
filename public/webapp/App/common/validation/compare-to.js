@@ -1,6 +1,4 @@
-var module = angular.module("employeesMngApp");
-
-app.directive('compareTo', function() {
+angular.module("employeesMngApp").directive('compareTo', function() {
 	return {
 		require : "ngModel",
 		scope : {
