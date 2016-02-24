@@ -1,5 +1,7 @@
-angular.module("employeesMngApp").controller("UserDetailsController", function($scope, $stateParams, UserDetailsService) {
+angular.module("employeesMngApp").controller("UserDetailsController", function($scope, $stateParams, PageDataService) {
 
-	$scope.getTabDesc = UserDetailsService.getTabDesc;
+	$scope.getTabDesc = PageDataService.getTabDesc;
+	
+	$scope.stateParams_userId = $stateParams.userId;
 
 });

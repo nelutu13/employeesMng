@@ -139,3 +139,14 @@ body {
 .inner_navbar .nav-tabs > li.active > a:hover{
     background-color: #fff !important;
 }
+
+.inner_navbar .navbar-brand {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+    line-height: 1.42857143;
+    text-align: center;
+	height: 20px;
+    
+}

@@ -1,4 +1,4 @@
-angular.module("employeesMngApp").factory("PageDataService", function($state, PAGE_DESC) {
+angular.module("employeesMngApp").factory("PageDataService", function($state, PAGE_DESC, TAB_DESC) {
 	
 	var service = this;
 	
@@ -10,6 +10,17 @@ angular.module("employeesMngApp").factory("PageDataService", function($state, PA
 			return 'The state "' + $state.current.name + '" is not defined.';
 		}
 	}
+	
+	service.getTabDesc = function() {
+		if (TAB_DESC[$state.current.name] != undefined)
+		{
+			return TAB_DESC[$state.current.name];
+		} else {
+			return 'The state "' + $state.current.name + '" is not defined.';
+		}
+	}
+
+	
 	
 	return service;
 	

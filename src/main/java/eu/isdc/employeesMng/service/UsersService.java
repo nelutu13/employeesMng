@@ -407,15 +407,20 @@ public class UsersService {
 		try {
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 
-			String query = "DELETE FROM users WHERE id = ?";
-
+			//delete holidays based on foreign key constraint
+			String query = "DELETE FROM holidays WHERE user_id = ?";
 			ps = conn.prepareStatement(query);
 			ps.setInt(1, userId);
-
 			int rsCount = ps.executeUpdate();
+			ps.close();
 
+			//then delete the user
+			query = "DELETE FROM users WHERE id = ?";
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, userId);
+			rsCount = ps.executeUpdate();
 			if (rsCount == 0) {
-				throw new UserException("The user could not be deleted !!");
+				throw new UserException("The user is not in database !!");
 			}
 
 			ps.close();

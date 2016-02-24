@@ -17,14 +17,6 @@ angular.module("employeesMngApp").controller("UserDetailsHolidaysController", fu
 	$scope.getHolidays = UserDetailsHolidaysService.getHolidays;
 	$scope.getUserHolidays = UserDetailsHolidaysService.getUserHolidays;
 	
-	$scope.submitForm = function() {
-
-		UserDetailsHolidaysService.updateUsersDetailHolidays();
-		
-	}
-
-	
-	
-
+	$scope.submitForm = UserDetailsHolidaysService.updateUsersDetailHolidays();
 
 });

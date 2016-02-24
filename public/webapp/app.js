@@ -13,7 +13,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        templateUrl: 'App/home/home.html',
             controller: 'HomeController'
 	    })
-        
+
 	    .state('home.list', {
 	        url: '/list',
 	        templateUrl: 'App/home/partial-home-list.html',
@@ -74,13 +74,13 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 
 	            'columnOne@about': { template: 'List of authors:' },
 
-	            'columnTwo@about': { 
+	            'columnTwo@about': {
 	                templateUrl: 'App/about/table-data.html',
 	                controller: 'AboutController'
 	            }
 	        }
 	    })
-	    
+
 	    .state('error_page', {
 	        url: '/error_page',
 	        params: {
@@ -92,20 +92,4 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        controller: 'ErrorPageController'
 	    });
 
-})
-.run(function($rootScope, $state) {
-    
-	$rootScope.xstates = {};
-    
-    function updateStates() {
-
-      angular.forEach($state.get(), function (state) {
-    	  $rootScope.xstates[state.name] = $state.includes(state.name);
-      });
-    }
-    
-    $rootScope.$on('$stateChangeSuccess', function() {
-    	updateStates();
-    })
-    
-  });
+});
