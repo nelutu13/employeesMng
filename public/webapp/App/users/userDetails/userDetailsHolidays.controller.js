@@ -3,7 +3,7 @@ angular.module("employeesMngApp").controller("UserDetailsHolidaysController", fu
 	UserDetailsHolidaysService.initUsersHolidaysDetail($stateParams.userId);
 
 	$scope.getUserHolidaysList = UserDetailsHolidaysService.getUserHolidaysList;
-	
+
 	$scope.getError = UserDetailsHolidaysService.getError;
 	$scope.getStatusMessage = UserDetailsHolidaysService.getStatusMessage;
 	$scope.getMessageStyleClass = UserDetailsHolidaysService.getMessageStyleClass;
@@ -16,7 +16,7 @@ angular.module("employeesMngApp").controller("UserDetailsHolidaysController", fu
 	$scope.open1 = UserDetailsHolidaysService.open1;
 	$scope.getHolidays = UserDetailsHolidaysService.getHolidays;
 	$scope.getUserHolidays = UserDetailsHolidaysService.getUserHolidays;
-	
-	$scope.submitForm = UserDetailsHolidaysService.updateUsersDetailHolidays();
+
+	$scope.submitForm = UserDetailsHolidaysService.updateUsersDetailHolidays;
 
 });

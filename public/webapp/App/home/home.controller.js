@@ -2,7 +2,7 @@
 
 	var HomeController = function($scope) {
 
-		$scope.birthdays = ['1991', '1992', '1993'];
+		$scope.birthdays = ['click', 'the', 'buttons'];
 
 	};
 

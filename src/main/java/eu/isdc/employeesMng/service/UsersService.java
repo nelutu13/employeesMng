@@ -92,7 +92,7 @@ public class UsersService {
 			if(rs.next()){
 				totalNumberOfUsers = rs.getInt("total");
 			}
-						
+			
 			rs.close();
 			stmt.close();
 			conn.close();
@@ -224,6 +224,9 @@ public class UsersService {
 		} catch (SQLException se) {
 			se.printStackTrace();
 			throw new UserException("SQL exception !!", se);
+		} catch (UserException ue) {
+			ue.printStackTrace();
+			throw new UserException("This user is not in database !!");
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new UserException("Some exception !! " + userId, e);

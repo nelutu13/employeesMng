@@ -7,32 +7,33 @@
 
 <div class="content-small">
 	<form name="userHolidaysForm" ng-submit="submitForm('holidays')" novalidate>
-		<div class="form-group">
+
+		<div class="form-group" ng-controller="DatePickerController">
 	    <div class="row">
         <div class="col-md-4">
 			<label for="sel1">Select from date:</label>
             <span class="input-group">
-	            <input type="text" class="form-control" uib-datepicker-popup ng-model="getUserHolidays().fromDate" is-open="getHolidays().popup1.opened"
-	            		datepicker-options="getHolidays().popup1.dateOptions" ng-change="changePopup()" readonly="readonly"  date-disabled="disabled(date, mode)" 
-	            		ng-required="true" />
+	            <input type="text" class="form-control" uib-datepicker-popup ng-model="getUserHolidays().fromDate" is-open="opened['fromDate']"
+	            		datepicker-options="dateOptions" ng-change="changePopup()" readonly="readonly"  date-disabled="disabled(date, mode)" 
+	            		ng-required="true" name="fromDate" id="fromDate" />
 	            <span class="input-group-btn">
-		            <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+		            <button type="button" class="btn btn-default" ng-click="open('fromDate')"><i class="glyphicon glyphicon-calendar"></i></button>
 	            </span>
             </span>
         </div>
 	    </div>
 	    </div>
 
-		<div class="form-group">
+		<div class="form-group" ng-controller="DatePickerController">
 	    <div class="row">
         <div class="col-md-4">
 			<label for="sel1">Select to date:</label>
             <span class="input-group">
-	            <input type="text" class="form-control" uib-datepicker-popup ng-model="getUserHolidays().toDate" is-open="getHolidays().popup2.opened"
-	            		datepicker-options="getHolidays().popup2.dateOptions" ng-change="changePopup()" readonly="readonly" date-disabled="disabled(date, mode)"
+	            <input type="text" class="form-control" uib-datepicker-popup ng-model="getUserHolidays().toDate" is-open="opened['toDate']"
+	            		datepicker-options="dateOptions" ng-change="changePopup()" readonly="readonly" date-disabled="disabled(date, mode)"
 	            		check-date-picker name="toDate" id="toDate" />
 	            <span class="input-group-btn">
-		            <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+		            <button type="button" class="btn btn-default" ng-click="open('toDate')"><i class="glyphicon glyphicon-calendar"></i></button>
 	            </span>
             </span>
         </div>
@@ -43,7 +44,7 @@
 	    
 	    </div>
 
-		<div class="form-group" ng-class="{'has-error' : userHolidaysForm.daysTaken.$invalid}">
+		<div class="form-group" ng-class="{'has-error' : userHolidaysForm.daysTaken.$invalid}" ng-controller="DatePickerController">
 	    <div class="row">
         <div class="col-md-4">
 			<label for="inputAge">Total time(days)</label>

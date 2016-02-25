@@ -7,6 +7,6 @@ angular.module("employeesMngApp").controller("UserDetailsPersonalController", fu
 	$scope.getMessageStyleClass = UserDetailsPersonalService.getMessageStyleClass;
 	$scope.goToUsersListPage = UserDetailsPersonalService.goToUsersListPage;
 
-	$scope.submitForm = UserDetailsPersonalService.updateUsersDetail();
+	$scope.submitForm = UserDetailsPersonalService.updateUsersDetail;
 
 });

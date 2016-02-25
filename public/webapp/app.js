@@ -18,7 +18,7 @@ employeesMngApp.config(function($stateProvider, $urlRouterProvider) {
 	        url: '/list',
 	        templateUrl: 'App/home/partial-home-list.html',
 	        controller: function($scope) {
-	            $scope.dogs = ['List users', 'Create users', 'Update users', 'Delete users', 'Pagination'];
+	            $scope.capabilities = ['List users', 'Create users', 'Update users', 'Delete users', 'Pagination'];
 	        }
 	    })
 

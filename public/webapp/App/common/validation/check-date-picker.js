@@ -8,9 +8,6 @@ angular.module("employeesMngApp").directive('checkDatePicker', function() {
 
 			ngModel.$validators.checkDatePicker = function(toDate) {
 
-				console.log("---");
-				console.log(toDate);
-				console.log(scope.getUserHolidays().fromDate);
 				if( toDate - scope.getUserHolidays().fromDate >= 0) {
 					return true;
 				}
